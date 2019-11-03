@@ -1,29 +1,44 @@
-# launcher
+
+
+
+
+# RemoteExec
+
+An application for managing and executing sequences of executables installed on remote computers.
+
+**Please read the wiki**
+
+## Stack
+**Electron**
+**NodeJS**
+**VueJS**
+**SCSS**
+
+# Project commands
 
 ## Project setup
 ```
-yarn install
-```
-
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-```
-yarn build
+yarn install OR npm run install
 ```
 
 ### Run your unit tests
 ```
-yarn test:unit
+yarn test:unit OR npm run test:unit
 ```
 
 ### Lints and fixes files
 ```
-yarn lint
+yarn lint OR npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### build
+
+```
+yarn electron:build OR npm run electron:build
+```
+
+### serve/development
+
+```
+yarn electron:serve OR npm run electron:serve
+```
