@@ -10,41 +10,77 @@ import uuid from 'uuid/v1'
  * @author Christoffer A Træen
  */
 export class Client {
-	private _socket: JsonSocketProtocol
+    private _socket: JsonSocketProtocol
 
-	private state: ClientState = ClientState.HANDSHAKING
+    private state: ClientState = ClientState.HANDSHAKING
 
-	/**
-	 * Name of the client
-	 */
-	private _name: string = 'unnamed'
+    /**
+     * Name of the client
+     */
+    private _name: string = 'unnamed'
 
-	/**
-	 * ID of the client
-	 */
-	private _id: string
+    /**
+     * ID of the client
+     */
+    private _id: string
 
-	constructor(socket: JsonSocketProtocol) {
-		this._socket = socket
-		this._id = uuid()
-	}
+    /**
+     * Public encryption key of the client
+     */
+    private _publicKey: Uint8Array | undefined
 
-	/**
-	 * Returns the clients id
-	 */
-	get id() {
-		return this._id
-	}
-	/**
-	 * Returns the clients name
-	 */
-	get name() {
-		return this._name
-	}
-	/**
-	 * Returns the clients socket
-	 */
-	get socket() {
-		return this._socket
-	}
+    /**
+     * Server/client shared key
+     */
+    private _sharedKey: Uint8Array | undefined
+
+    constructor(socket: JsonSocketProtocol) {
+        this._socket = socket
+        this._id = uuid()
+    }
+
+    /**
+     * Returns the clients id
+     */
+    get id() {
+        return this._id
+    }
+    /**
+     * Returns the clients name
+     */
+    get name() {
+        return this._name
+    }
+    /**
+     * Returns the clients socket
+     */
+    get socket() {
+        return this._socket
+    }
+    /**
+     * Returns the public key for the client,
+     * or empty Uint8array if no key is set.
+     */
+    get publicKey(): Uint8Array {
+        return this._publicKey ? this._publicKey : new Uint8Array()
+    }
+    /**
+     * sets the public key for the client.
+     */
+    set publicKey(key: Uint8Array) {
+        this._publicKey = key
+    }
+    /**
+     * Returns the shared key between client and server, or empty
+     * uint8array if the key is not set
+     */
+    get sharedKey(): Uint8Array {
+        return this._sharedKey ? this._sharedKey : new Uint8Array()
+    }
+    /**
+     * sets the shared key between client and server.
+     */
+    set sharedKey(key: Uint8Array) {
+        this._sharedKey = key
+    }
 }
