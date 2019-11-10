@@ -1,6 +1,7 @@
 import { AuthenticatePayload } from './AuthenticatePayload'
 import { ProcessStatusPayload } from './ProcessStatusPayload'
 import { ExecutedPayload } from './ExecutedPayload'
+import { PublicKeyPayload } from './PublicKeyPayload'
 
 export interface ClientPayload {
     data?: ClientDataPayload
@@ -9,7 +10,7 @@ export interface ClientPayload {
 
 interface ClientDataPayload {
     [key: string]: any
-    publicKey?: string
+    publicKey?: PublicKeyPayload
     authenticate?: AuthenticatePayload
     processStatus?: Array<ProcessStatusPayload>
     executed?: Array<ExecutedPayload>
