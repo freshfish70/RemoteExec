@@ -5,7 +5,10 @@ export class ProtocolParser {
     /**
      * All command actions
      */
-    private _actions: Map<string, (payload: any) => void> = new Map()
+    private _actions: Map<
+        string,
+        (clientid: string, payload: any) => void
+    > = new Map()
 
     /**
      * Adds an action to the action pool
@@ -13,7 +16,10 @@ export class ProtocolParser {
      * @param callable the function to execute
      * @throws Error thrown if an action is already registered with name
      */
-    public registerActions(action: string, callable: (payload: any) => void) {
+    public registerActions(
+        action: string,
+        callable: (clientid: string, payload: any) => void
+    ) {
         if (this._actions.has(action))
             throw new Error(`Action "${action}" is already defined.`)
 
@@ -33,7 +39,7 @@ export class ProtocolParser {
             const identifier: string = Object.keys(payload.data)[0]
             const message = payload.data[identifier]
             const callable = this._actions.get(identifier)
-            if (callable) callable(message)
+            if (callable) callable(clientid, message)
         }
     }
 }
