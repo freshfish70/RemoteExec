@@ -14,73 +14,72 @@ import { BoxKeyPair } from 'tweetnacl'
  * @param store Vuex store
  */
 export const createServer = async function createServer(store: Store<{}>) {
-    const crypto = new TweetCrypto()
-    const parser = new ProtocolParser()
-    const processor = new ClientProcessor(parser)
+	const crypto = new TweetCrypto()
+	const parser = new ProtocolParser()
+	const processor = new ClientProcessor(parser)
 
-    /**
-     * Holds the key pair for the server
-     */
-    const _serverKeys: BoxKeyPair = crypto.generateKeyPair()
+	/**
+	 * Holds the key pair for the server
+	 */
+	const _serverKeys: BoxKeyPair = crypto.generateKeyPair()
 
-    parser.registerActions(
-        'publicKey',
-        (client: Client, payload: PublicKeyPayload) => {
-            if (!payload) return
-            let key = new Uint8Array(Object.values(payload))
+	parser.registerActions(
+		'publicKey',
+		(client: Client, payload: PublicKeyPayload) => {
+			if (!payload || client.sharedKey) return
+			let key = new Uint8Array(Object.values(payload))
 
-            if (client.sharedKey) return
-            const sharedkey = crypto.generateSharedKey(
-                key,
-                _serverKeys.secretKey
-            )
+			const sharedkey = crypto.generateSharedKey(
+				key,
+				_serverKeys.secretKey
+			)
 
-            client.publicKey = key
-            client.sharedKey = sharedkey
+			client.publicKey = key
+			client.sharedKey = sharedkey
 
-            const encryptor = (data: string) => {
-                return crypto.encryptWithSharedKey(data, sharedkey)
-            }
-            const decryptor = (data: string) => {
-                return crypto.decryptWithSharedKey(data, sharedkey)
-            }
-            client.socket.setEncryptorAndDecryptor(encryptor, decryptor)
-            client.socket.write({ pubkey: _serverKeys.publicKey })
-            client.socket.setEncryptionState(true)
-        }
-    )
+			const encryptor = (data: string) => {
+				return crypto.encryptWithSharedKey(data, sharedkey)
+			}
+			const decryptor = (data: string) => {
+				return crypto.decryptWithSharedKey(data, sharedkey)
+			}
+			client.socket.setEncryptorAndDecryptor(encryptor, decryptor)
+			client.socket.write({ pubkey: _serverKeys.publicKey })
+			client.socket.setEncryptionState(true)
+		}
+	)
 
-    parser.registerActions(
-        'authenticate',
-        (client: Client, payload: PublicKeyPayload) => {
-            if (payload) {
-                console.log(payload)
-            }
-        }
-    )
+	parser.registerActions(
+		'authenticate',
+		(client: Client, payload: PublicKeyPayload) => {
+			if (payload) {
+				console.log(payload)
+			}
+		}
+	)
 
-    parser.registerActions(
-        'executed',
-        (client: Client, payload: PublicKeyPayload) => {
-            if (payload) {
-                console.log(payload)
-            }
-        }
-    )
+	parser.registerActions(
+		'executed',
+		(client: Client, payload: PublicKeyPayload) => {
+			if (payload) {
+				console.log(payload)
+			}
+		}
+	)
 
-    parser.registerActions(
-        'processStatus',
-        (client: Client, payload: PublicKeyPayload) => {
-            if (payload) {
-                console.log(payload)
-            }
-        }
-    )
+	parser.registerActions(
+		'processStatus',
+		(client: Client, payload: PublicKeyPayload) => {
+			if (payload) {
+				console.log(payload)
+			}
+		}
+	)
 
-    let server = new net.Server((socket: Socket) => {
-        createClient(socket, processor)
-    })
+	let server = new net.Server((socket: Socket) => {
+		createClient(socket, processor)
+	})
 
-    // !NEEDS TO BE TRIGGERED BY UI
-    server.listen(config.network.port)
+	// !NEEDS TO BE TRIGGERED BY UI
+	server.listen(config.network.port)
 }
