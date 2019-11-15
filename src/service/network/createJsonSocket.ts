@@ -9,30 +9,30 @@ import { ClientProcessor } from './ClientProcessor'
  * @param socket TCP socket
  */
 export const createClient = (socket: Socket, processor: ClientProcessor) => {
-	const jsonSocket = new JsonSocketProtocol(socket)
-	const client = new Client(jsonSocket)
+    const jsonSocket = new JsonSocketProtocol(socket)
+    const client = new Client(jsonSocket)
 
-	jsonSocket.on('error', onError)
-	jsonSocket.on('data', onData)
-	jsonSocket.on('close', onClose)
+    jsonSocket.on('error', onError)
+    jsonSocket.on('data', onData)
+    jsonSocket.on('close', onClose)
 
-	function onData(data: any) {
-		processor.recieve(client.id, data)
-	}
+    function onData(data: any) {
+        processor.recieve(client, data)
+    }
 
-	function onError(error: Error) {
-		processor.socketError(client.id, error)
-	}
+    function onError(error: Error) {
+        processor.socketError(client.id, error)
+    }
 
-	/**
-	 * Cleanup
-	 */
-	function onClose() {
-		processor.clientDisconnected(client.id)
-		jsonSocket.removeAllListeners('data')
-		jsonSocket.removeAllListeners('error')
-		jsonSocket.removeAllListeners('close')
-	}
+    /**
+     * Cleanup
+     */
+    function onClose() {
+        processor.clientDisconnected(client.id)
+        jsonSocket.removeAllListeners('data')
+        jsonSocket.removeAllListeners('error')
+        jsonSocket.removeAllListeners('close')
+    }
 
-	processor.addClient(client)
+    processor.addClient(client)
 }

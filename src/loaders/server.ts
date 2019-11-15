@@ -6,6 +6,9 @@ import { config } from '@/config'
 import { ProtocolParser } from '@/service/protocol/ProtocolParser'
 import { PublicKeyPayload } from '@/types/protocol/PublicKeyPayload'
 import { TweetCrypto } from '@/service/security/TweetCrypto'
+import { Client } from '@/service/network/Client'
+import { BoxKeyPair } from 'tweetnacl'
+
 /**
  * Initialize the server and
  * @param store Vuex store
@@ -13,20 +16,43 @@ import { TweetCrypto } from '@/service/security/TweetCrypto'
 export const createServer = async function createServer(store: Store<{}>) {
     const crypto = new TweetCrypto()
     const parser = new ProtocolParser()
-    const processor = new ClientProcessor(parser, crypto)
+    const processor = new ClientProcessor(parser)
+
+    /**
+     * Holds the key pair for the server
+     */
+    const _serverKeys: BoxKeyPair = crypto.generateKeyPair()
 
     parser.registerActions(
         'publicKey',
-        (clientid: string, payload: PublicKeyPayload) => {
+        (client: Client, payload: PublicKeyPayload) => {
             if (!payload) return
             let key = new Uint8Array(Object.values(payload))
-            processor.enableEncryptionForClient(clientid, key)
+
+            if (client.sharedKey) return
+            const sharedkey = crypto.generateSharedKey(
+                key,
+                _serverKeys.secretKey
+            )
+
+            client.publicKey = key
+            client.sharedKey = sharedkey
+
+            const encryptor = (data: string) => {
+                return crypto.encryptWithSharedKey(data, sharedkey)
+            }
+            const decryptor = (data: string) => {
+                return crypto.decryptWithSharedKey(data, sharedkey)
+            }
+            client.socket.setEncryptorAndDecryptor(encryptor, decryptor)
+            client.socket.write({ pubkey: _serverKeys.publicKey })
+            client.socket.setEncryptionState(true)
         }
     )
 
     parser.registerActions(
         'authenticate',
-        (clientid: string, payload: PublicKeyPayload) => {
+        (client: Client, payload: PublicKeyPayload) => {
             if (payload) {
                 console.log(payload)
             }
@@ -35,7 +61,7 @@ export const createServer = async function createServer(store: Store<{}>) {
 
     parser.registerActions(
         'executed',
-        (clientid: string, payload: PublicKeyPayload) => {
+        (client: Client, payload: PublicKeyPayload) => {
             if (payload) {
                 console.log(payload)
             }
@@ -44,7 +70,7 @@ export const createServer = async function createServer(store: Store<{}>) {
 
     parser.registerActions(
         'processStatus',
-        (clientid: string, payload: PublicKeyPayload) => {
+        (client: Client, payload: PublicKeyPayload) => {
             if (payload) {
                 console.log(payload)
             }

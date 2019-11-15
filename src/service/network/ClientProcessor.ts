@@ -1,8 +1,6 @@
 import { Client } from './Client'
 import { ClientPayload } from '../../types/protocol/ClientPayload'
 import { ProtocolParser } from '../protocol/ProtocolParser'
-import { TweetCrypto } from '../security/TweetCrypto'
-import { BoxKeyPair } from 'tweetnacl'
 
 /**
  * The client processor is responsible for managing messages between client
@@ -23,23 +21,11 @@ export class ClientProcessor {
     private _parser: ProtocolParser
 
     /**
-     * Cryptator
-     */
-    private _crypto: TweetCrypto
-
-    /**
-     * Holds the key pair for the server
-     */
-    private _serverKeys: BoxKeyPair
-
-    /**
      * Initialize the emitter and sets the store
      * @param store Vuex store
      */
-    constructor(parser: ProtocolParser, crypto: TweetCrypto) {
+    constructor(parser: ProtocolParser) {
         this._parser = parser
-        this._crypto = crypto
-        this._serverKeys = crypto.generateKeyPair()
     }
 
     /**
@@ -69,41 +55,8 @@ export class ClientProcessor {
      * Handles the recieved data
      * @param data recieved data
      */
-    public recieve(clientid: string, data: ClientPayload) {
-        this._parser.parse(clientid, data)
-    }
-
-    /**
-     * Enables encryption for the client, by settings the encrypt/decrypt
-     * method on the network protocol handler. Keys are also assigned to
-     * the client.
-     *
-     * @param clientid the client id to enable encryption for
-     * @param publickey the public key of the client
-     */
-    public enableEncryptionForClient(clientid: string, publickey: Uint8Array) {
-        const client = this.getClient(clientid)
-
-        if (client) {
-            if (client.sharedKey) return
-            const sharedkey = this._crypto.generateSharedKey(
-                publickey,
-                this._serverKeys.secretKey
-            )
-
-            client.publicKey = publickey
-            client.sharedKey = sharedkey
-
-            const encryptor = (data: string) => {
-                return this._crypto.encryptWithSharedKey(data, sharedkey)
-            }
-            const decryptor = (data: string) => {
-                return this._crypto.decryptWithSharedKey(data, sharedkey)
-            }
-            client.socket.setEncryptorAndDecryptor(encryptor, decryptor)
-            client.socket.write({ pubkey: this._serverKeys.publicKey })
-            client.socket.setEncryptionState(true)
-        }
+    public recieve(client: Client, data: ClientPayload) {
+        this._parser.parse(client, data)
     }
 
     /**

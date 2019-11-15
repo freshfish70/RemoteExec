@@ -7,7 +7,7 @@ export class ProtocolParser {
      */
     private _actions: Map<
         string,
-        (clientid: string, payload: any) => void
+        (client: Client, payload: any) => void
     > = new Map()
 
     /**
@@ -18,7 +18,7 @@ export class ProtocolParser {
      */
     public registerActions(
         action: string,
-        callable: (clientid: string, payload: any) => void
+        callable: (client: Client, payload: any) => void
     ) {
         if (this._actions.has(action))
             throw new Error(`Action "${action}" is already defined.`)
@@ -31,7 +31,7 @@ export class ProtocolParser {
      * @param client The client the package came from
      * @param payload the payload recieved by client
      */
-    public parse(clientid: string, payload: ClientPayload): void {
+    public parse(client: Client, payload: ClientPayload): void {
         //TODO HANDLE CLIENT DATA
         if (payload.error) {
             console.error('package error')
@@ -39,7 +39,7 @@ export class ProtocolParser {
             const identifier: string = Object.keys(payload.data)[0]
             const message = payload.data[identifier]
             const callable = this._actions.get(identifier)
-            if (callable) callable(clientid, message)
+            if (callable) callable(client, message)
         }
     }
 }
