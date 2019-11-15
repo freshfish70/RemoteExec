@@ -26,7 +26,7 @@ export const createServer = async function createServer(store: Store<{}>) {
 	parser.registerActions(
 		'publicKey',
 		(client: Client, payload: PublicKeyPayload) => {
-			if (!payload || client.sharedKey) return
+			if (!payload || !client.isHandshaking()) return
 			let key = new Uint8Array(Object.values(payload))
 
 			const sharedkey = crypto.generateSharedKey(
@@ -52,6 +52,7 @@ export const createServer = async function createServer(store: Store<{}>) {
 	parser.registerActions(
 		'authenticate',
 		(client: Client, payload: PublicKeyPayload) => {
+			if (client.isAuthenticated()) return // TODO RETURN ERROR MESSAGE
 			if (payload) {
 				console.log(payload)
 			}
@@ -61,6 +62,7 @@ export const createServer = async function createServer(store: Store<{}>) {
 	parser.registerActions(
 		'executed',
 		(client: Client, payload: PublicKeyPayload) => {
+			if (!client.isAuthenticated()) return // TODO RETURN ERROR MESSAGE
 			if (payload) {
 				console.log(payload)
 			}
@@ -70,6 +72,7 @@ export const createServer = async function createServer(store: Store<{}>) {
 	parser.registerActions(
 		'processStatus',
 		(client: Client, payload: PublicKeyPayload) => {
+			if (!client.isAuthenticated()) return // TODO RETURN ERROR MESSAGE
 			if (payload) {
 				console.log(payload)
 			}
