@@ -54,7 +54,10 @@ export class TweetCrypto {
 	 */
 	private extractNounceAndMessage(encryptedData: string) {
 		const messageWithNonceAsUint8Array = decodeBase64(encryptedData)
-		const nonce = messageWithNonceAsUint8Array.slice(0, this.box.nonceLength)
+		const nonce = messageWithNonceAsUint8Array.slice(
+			0,
+			this.box.nonceLength
+		)
 		const message = messageWithNonceAsUint8Array.slice(
 			this.box.nonceLength,
 			encryptedData.length
@@ -135,7 +138,10 @@ export class TweetCrypto {
 	 * Generates a precomputed shared key which can be used to encrypt and decrypt
 	 * messages between the two peers.
 	 */
-	public generateSharedKey(peerPublicKey: Uint8Array, privateKey: Uint8Array) {
+	public generateSharedKey(
+		peerPublicKey: Uint8Array,
+		privateKey: Uint8Array
+	) {
 		return this.box.before(peerPublicKey, privateKey)
 	}
 
@@ -146,7 +152,11 @@ export class TweetCrypto {
 	 */
 	public decryptWithSharedKey(encryptedData: string, sharedKey: Uint8Array) {
 		const extracted = this.extractNounceAndMessage(encryptedData)
-		const decrypted = box.after(extracted.message, extracted.nonce, sharedKey)
+		const decrypted = box.open.after(
+			extracted.message,
+			extracted.nonce,
+			sharedKey
+		)
 		return this.tryEncodeMessage(decrypted)
 	}
 
