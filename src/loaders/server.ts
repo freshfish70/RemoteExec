@@ -38,10 +38,10 @@ export const createServer = async function createServer(store: Store<{}>) {
 			client.sharedKey = sharedkey
 
 			const encryptor = (data: string) => {
-				return crypto.encryptWithSharedKey(data, sharedkey)
+				return crypto.encryptWithSharedKey(data, client.sharedKey)
 			}
 			const decryptor = (data: string) => {
-				return crypto.decryptWithSharedKey(data, sharedkey)
+				return crypto.decryptWithSharedKey(data, client.sharedKey)
 			}
 			client.socket.setEncryptorAndDecryptor(encryptor, decryptor)
 			client.socket.write({ pubkey: _serverKeys.publicKey })
