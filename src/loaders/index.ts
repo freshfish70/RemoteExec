@@ -1,7 +1,7 @@
 import { logger } from '@/loaders/logger'
 import { createServer } from '@/loaders/server'
 import { Store } from 'vuex'
-
+import { storage } from './storage'
 /**
  * Starts application loaders.
  *
