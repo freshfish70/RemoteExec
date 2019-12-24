@@ -1,11 +1,31 @@
-// const Store = require('electron-store');
+import Store from 'electron-store'
 
-import EStore from 'electron-store'
-
+let configStorageInstance: Store
 /**
- * Store for regular configuration
- * Does not need protection.
+ * Store for basic app data which is not sensitive.
  */
-const configStorage = new EStore({ name: 'config' })
+const configStorage = () => {
+	let storage = new Store({ name: 'config' })
+	let created = storage.get('create')
+	if (!created) storage.set('created', true)
+	configStorageInstance = storage
+
+	return {
+		get,
+		set,
+	}
+}
 
 export { configStorage }
+
+// Get functions
+const get = {
+	initialized: () => {
+		return configStorageInstance.get('secureInitialized') ? true : false
+	},
+}
+
+// Set functions
+const set = {
+	initialized: () => configStorageInstance.set('secureInitialized', true),
+}
