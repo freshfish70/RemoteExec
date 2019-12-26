@@ -2,7 +2,6 @@
 node_modules
 /dist
 
-
 # local env files
 .env.local
 .env.*.local
@@ -24,3 +23,4 @@ yarn-error.log*
 
 #Electron-builder output
 /dist_electron
+/[Bb]uild
