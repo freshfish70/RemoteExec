@@ -89,3 +89,13 @@ body {
 .drop-shadow {
 	box-shadow: 0.5rem 0.5rem 1rem $drop-shadow;
 }
+
+
+#main-content {
+	display: grid;
+	grid-template-rows: auto;
+	grid-template:
+		"header header-side header-side"5rem "sub-header sub-header sub-header"7rem "main main main"auto;
+	padding: 30px;
+}
+
