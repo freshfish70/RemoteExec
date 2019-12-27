@@ -5,9 +5,22 @@
 
 @import './colors.scss';
 
+// @import url('/fonts/opensans/css?family=Open+Sans&display=swap');
+
+@font-face {
+	font-family: "OpenSans";
+	src: url("/fonts/opensans/OpenSans-Regular.ttf");
+}
+
+@font-face {
+	font-family: "OpenSansLight";
+	src: url("/fonts/opensans/OpenSans-Light.ttf");
+}
+
 $sidebar-width: 85px;
 
 body {
+	font-family: OpenSans;
 	background: $background-base-color;
 	color: $font-primary-color;
 }
