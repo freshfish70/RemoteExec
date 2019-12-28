@@ -25,7 +25,9 @@ body {
 	color: $font-primary-color;
 }
 
-#app {
+#app {}
+
+#app-main {
 	display: grid;
 	grid-template-columns: $sidebar-width auto;
 	grid-template-rows: 100vh;
