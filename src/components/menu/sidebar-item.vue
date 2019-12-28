@@ -1,5 +1,5 @@
 <template>
-	<router-link class="menu-item" to="#">
+	<router-link class="menu-item" :to="to">
 		<img :src="'/images/icons/' + image" />
 		<div v-if="hover" class="sidebar-hover">
 			<span>{{ text }}</span>
@@ -13,6 +13,7 @@ const SidebarItemProps = Vue.extend({
 	props: {
 		image: String,
 		text: String,
+		to: String,
 		hover: {
 			type: Boolean,
 			default: true,
