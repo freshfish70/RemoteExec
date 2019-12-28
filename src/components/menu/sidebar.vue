@@ -1,31 +1,37 @@
 <template>
 	<nav id="main-menu" class="drop-shadow">
 		<section id="menu-top">
-			<sidebar-item :image="'back.png'" :hover="false"></sidebar-item>
+			<sidebar-item
+				:to="'/'"
+				:image="'back.png'"
+				:hover="false"
+			></sidebar-item>
 		</section>
 		<section id="menu-center">
 			<sidebar-item
+				:to="'/app'"
 				:image="'client.png'"
 				:text="'Clients'"
 			></sidebar-item>
 
 			<sidebar-item
+				:to="'/app/sequences'"
 				:image="'sequence.png'"
 				:text="'Sequences'"
 			></sidebar-item>
 
 			<sidebar-item
-				:image="'file.png'"
-				:text="'Whitelist'"
-			></sidebar-item>
-
-			<sidebar-item
+				:to="'/app/settings'"
 				:image="'settings.png'"
 				:text="'Settings'"
 			></sidebar-item>
 		</section>
 		<section id="menu-bottom">
-			<sidebar-item :image="'logout.png'" :text="'Logout'"></sidebar-item>
+			<sidebar-item
+				:to="'/app/login'"
+				:image="'logout.png'"
+				:text="'Logout'"
+			></sidebar-item>
 		</section>
 	</nav>
 </template>
