@@ -16,11 +16,16 @@
 					<div class="connection-state disconnected" v-else></div>
 				</template>
 				<template v-slot:cell(toggle)="data">
-					<div
-						class="connection-state connected"
+					<img
+						class="toggle-image"
+						src="/images/icons/play.png"
 						v-if="data.value"
-					></div>
-					<div class="connection-state disconnected" v-else></div>
+					/>
+					<img
+						class="toggle-image"
+						src="/images/icons/stop.png"
+						v-else
+					/>
 				</template>
 				<template v-slot:cell(view)="data">
 					V
