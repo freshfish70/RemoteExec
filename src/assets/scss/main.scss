@@ -8,18 +8,18 @@
 // @import url('/fonts/opensans/css?family=Open+Sans&display=swap');
 
 @font-face {
-	font-family: "OpenSans";
-	src: url("/fonts/opensans/OpenSans-Regular.ttf");
+	font-family: 'OpenSans';
+	src: url('/fonts/opensans/OpenSans-Regular.ttf');
 }
 
 @font-face {
-	font-family: "OpenSansLight";
-	src: url("/fonts/opensans/OpenSans-Light.ttf");
+	font-family: 'OpenSansLight';
+	src: url('/fonts/opensans/OpenSans-Light.ttf');
 }
 
 @font-face {
-	font-family: "OpenSansBold";
-	src: url("/fonts/opensans/OpenSans-Bold.ttf");
+	font-family: 'OpenSansBold';
+	src: url('/fonts/opensans/OpenSans-Bold.ttf');
 }
 
 $sidebar-width: 85px;
@@ -98,7 +98,6 @@ body {
 	box-shadow: 0.5rem 0.5rem 1rem $drop-shadow;
 }
 
-
 #main-container {
 	display: flex;
 	flex-direction: column;
@@ -108,24 +107,28 @@ body {
 .title-header {
 	grid-area: header;
 	text-transform: uppercase;
-	margin: 0 0 1rem 0;
+	margin: 0 0 2rem 0;
 }
 
 #page-title {
 	color: $font-header-color;
 	font-size: 2.5rem;
-	margin: 0 0 -.2rem 0;
+	margin: 0 0 -0.2rem 0;
 }
 
 #page-subtitle {
 	font-family: OpenSansLight;
 	color: $font-subheader-color;
 	font-size: 1.3rem;
-
 }
 
 #page-content {
 	grid-area: main;
+}
+
+#content-top {
+	border-bottom: 1px solid $border-color;
+	margin: 0 0 4rem 0;
 }
 
 .connection-state {
@@ -174,4 +177,44 @@ body {
 
 .disconnected {
 	background: $pink-color;
+}
+
+.client-info {
+	li {
+		display: inline-block;
+		margin: 0 1rem 0 0;
+	}
+}
+
+// TABLE 
+.table {
+	color: $font-primary-color;
+
+	thead {
+		background: $component-compliment-color;
+		font-family: 'OpenSansBold';
+		border-radius: 5px 5px 0 0;
+
+		tr th:first-child {
+			border-radius: .3rem 0 0 0;
+		}
+
+		tr th:last-child {
+			border-radius: 0 .3rem 0 0;
+		}
+	}
+
+	tbody {
+		tr:nth-child(odd) {
+			background-color: $table-nth-odd;
+		}
+
+		tr:nth-child(even) {
+			background-color: $table-nth-even;
+		}
+	}
+}
+
+.table-icon-column {
+	width: 3rem;
 }

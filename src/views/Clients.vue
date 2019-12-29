@@ -3,18 +3,20 @@
 		<section id="content-top"></section>
 		<section id="content" class="">
 			<div class="client-group">
-				<b-card
-					class="drop-shadow"
-					img-top
-					style="max-width: 25rem; min-width: 22rem;"
-				>
-					<div class="connection-state connected"></div>
-					<b-card-title>Client</b-card-title>
-					<b-card-text>
-						192.168.1.125<br />
-						2001:db8:85a3:0:0:8a2e:370:7334
-					</b-card-text>
-				</b-card>
+				<router-link to="/app/client/test">
+					<b-card
+						class="drop-shadow"
+						img-top
+						style="max-width: 25rem; min-width: 22rem;"
+					>
+						<div class="connection-state connected"></div>
+						<b-card-title>Client</b-card-title>
+						<b-card-text>
+							192.168.1.125<br />
+							2001:db8:85a3:0:0:8a2e:370:7334
+						</b-card-text>
+					</b-card>
+				</router-link>
 				<b-card
 					class="drop-shadow"
 					img-top

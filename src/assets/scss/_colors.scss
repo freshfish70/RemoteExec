@@ -4,6 +4,8 @@ $background-base-color: #1c1e30;
 $component-color: #222337;
 $component-compliment-color: #303450;
 
+$border-color: #323650;
+
 $green-color: #33d59b;
 $yellow-color: #feb72b;
 $pink-color: #d3437e;
@@ -15,6 +17,8 @@ $button-cancel-color: #b24361;
 
 $drop-shadow: #15162645;
 
+$table-nth-odd:#222337;
+$table-nth-even:#27283E;
 // FONTS
 $font-header-color: #f5f7fd;
 $font-subheader-color: #788098;
@@ -23,7 +27,6 @@ $font-danger-color: #b54573;
 $font-secondary-color: #686d92;
 $font-placeholder-color: #323650;
 $logo-color: #375bd1;
-
 
 .green-color {
 	color: $green-color;
