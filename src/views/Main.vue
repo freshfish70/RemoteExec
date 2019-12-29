@@ -1,10 +1,10 @@
 <template>
 	<div id="app-main">
 		<sidebar />
-		<main id="main-content" class="container-fluid">
+		<main id="main-container" class="container-fluid">
 			<section class="title-header">
-				<h1 id="main-title">{{ title }}</h1>
-				<h3 id="main-subtitle">{{ subtitle }}</h3>
+				<h1 id="page-title">{{ title }}</h1>
+				<h3 id="page-subtitle">{{ subtitle }}</h3>
 			</section>
 			<router-view />
 		</main>
