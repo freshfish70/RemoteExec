@@ -17,6 +17,11 @@
 	src: url("/fonts/opensans/OpenSans-Light.ttf");
 }
 
+@font-face {
+	font-family: "OpenSansBold";
+	src: url("/fonts/opensans/OpenSans-Bold.ttf");
+}
+
 $sidebar-width: 85px;
 
 body {
