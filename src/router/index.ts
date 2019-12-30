@@ -3,6 +3,8 @@ import VueRouter, { RouterOptions, RouteConfig } from 'vue-router'
 import Login from '../views/Login.vue'
 import Main from '../views/Main.vue'
 import Clients from '../views/Clients.vue'
+import Client from '../views/Client.vue'
+import ClientExecution from '../views/ClientExecution.vue'
 import Sequences from '../views/Sequences.vue'
 import Settings from '../views/Settings.vue'
 
@@ -42,6 +44,24 @@ const routes: RouteConfigExtended[] = [
 				meta: {
 					title: 'Clients',
 					subtitle: 'Clients',
+				},
+			},
+			{
+				path: 'client/:id',
+				name: 'Client',
+				component: Client,
+				meta: {
+					title: 'Client',
+					subtitle: '',
+				},
+			},
+			{
+				path: 'client/:id/execution/:exid?',
+				name: 'Client execution',
+				component: ClientExecution,
+				meta: {
+					title: 'Execution sequence',
+					subtitle: '',
 				},
 			},
 			{

@@ -28,7 +28,9 @@
 					/>
 				</template>
 				<template v-slot:cell(view)="data">
-					V
+					<router-link to="/app/client/4/execution/IDHERE"
+						><img class="toggle-image" src="/images/icons/eye.png"
+					/></router-link>
 				</template>
 			</b-table>
 		</section>
