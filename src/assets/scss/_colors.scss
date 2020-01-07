@@ -17,8 +17,8 @@ $button-cancel-color: #b24361;
 
 $drop-shadow: #15162645;
 
-$table-nth-odd:#222337;
-$table-nth-even:#27283E;
+$table-nth-odd: #222337;
+$table-nth-even: #27283e;
 // FONTS
 $font-header-color: #f5f7fd;
 $font-subheader-color: #788098;
@@ -66,4 +66,16 @@ $logo-color: #375bd1;
 
 .greenblue-background {
 	background: $greenblue-color;
+}
+
+.danger-color {
+	color: $red-color;
+}
+
+.warning-color {
+	color: $yellow-color;
+}
+
+.confirmed-color {
+	color: $greenblue-color;
 }
