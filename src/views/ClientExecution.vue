@@ -19,29 +19,19 @@
 				></b-form-input>
 			</b-form>
 		</section>
-		<section id="content" class="">
-			<b-table
-				borderless
-				class="table-spaced"
-				:items="items"
-				:fields="fields"
-			>
+		<section id="content" class="d-flex flex-column">
+			<b-table borderless class="table-spaced" :items="items" :fields="fields">
+				<template v-slot:cell(select)="data">
+					<b-form-checkbox />
+				</template>
 				<template v-slot:cell(run)="data">
-					<img
-						class="toggle-image"
-						src="/images/icons/play.png"
-						v-if="data.value"
-					/>
-					<img
-						class="toggle-image"
-						src="/images/icons/stop.png"
-						v-else
-					/>
+					<img class="toggle-image" src="/images/icons/play.png" v-if="data.value" />
+					<img class="toggle-image" src="/images/icons/stop.png" v-else />
 				</template>
 				<template v-slot:cell(edit)="data">
-					<router-link to="/app/client/4/execution/IDHERE"
-						><img class="toggle-image" src="/images/icons/pen.png"
-					/></router-link>
+					<router-link to="/app/client/4/execution/IDHERE">
+						<img class="toggle-image" src="/images/icons/pen.png" />
+					</router-link>
 				</template>
 			</b-table>
 			<div class="align-self-center text-center d-flex flex-column">
@@ -64,6 +54,7 @@ import Card from '@/components/card/card'
 })
 export default class Client extends Vue {
 	fields = [
+		{ key: 'select', label: '' },
 		{
 			key: 'executable',
 		},
@@ -89,22 +80,22 @@ export default class Client extends Vue {
 		{
 			executable: 'test.exe',
 			arguments: '-arg 1 fullscreen',
-			delay: 'application zero description',
-			status: '23.03.2019',
+			delay: '5',
+			status: 'running',
 			run: true,
 		},
 		{
 			executable: 'text.exe',
 			arguments: '-arg 1 fullscreen',
-			delay: 'application one description',
-			status: '23.03.2019',
+			delay: '6',
+			status: 'Waiting',
 			run: false,
 		},
 		{
 			executable: 'test.exe',
 			arguments: '-arg 1 fullscreen',
-			delay: 'application two description',
-			status: '23.03.2019',
+			delay: '2        ',
+			status: 'Stopped',
 			run: true,
 		},
 	]
