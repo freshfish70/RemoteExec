@@ -222,3 +222,12 @@ body {
 .toggle-image {
 	width: 1rem;
 }
+
+// HELPERS
+.no-wrap {
+	flex-wrap: nowrap !important;
+}
+
+.no-border {
+	border: none !important;
+}
