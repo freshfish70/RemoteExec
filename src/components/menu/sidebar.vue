@@ -1,11 +1,9 @@
 <template>
 	<nav id="main-menu" class="drop-shadow">
 		<section id="menu-top">
-			<sidebar-item
-				:to="'/'"
-				:image="'back.png'"
-				:hover="false"
-			></sidebar-item>
+			<div @click="back" class="menu-item">
+				<img :src="'/images/icons/back.png'" />
+			</div>
 		</section>
 		<section id="menu-center">
 			<sidebar-item
@@ -44,5 +42,9 @@ import SidebarItem from '@/components/menu/sidebar-item.vue'
 		sidebarItem: SidebarItem,
 	},
 })
-export default class Sidebar extends Vue {}
+export default class Sidebar extends Vue {
+	back() {
+		this.$router.back()
+	}
+}
 </script>
