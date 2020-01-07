@@ -44,6 +44,12 @@
 					/></router-link>
 				</template>
 			</b-table>
+			<div class="align-self-center text-center d-flex flex-column">
+				<router-link to="#">
+					<img class="add-item-image mb-2" src="/images/icons/add.png" />
+				</router-link>
+				<span>Add executable</span>
+			</div>
 		</section>
 	</div>
 </template>

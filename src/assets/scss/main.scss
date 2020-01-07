@@ -28,7 +28,8 @@ body {
 	color: $font-primary-color;
 }
 
-#app {}
+#app {
+}
 
 #app-main {
 	display: grid;
@@ -184,7 +185,7 @@ body {
 	}
 }
 
-// TABLE 
+// TABLE
 .table {
 	color: $font-primary-color;
 
@@ -260,4 +261,8 @@ body {
 
 .no-border {
 	border: none !important;
+}
+
+.add-item-image {
+	width: 3rem;
 }
