@@ -223,6 +223,23 @@ body {
 	width: 1rem;
 }
 
+// INPUT
+.input-stripped,
+.input-stripped:focus {
+	background: none;
+	border: none;
+	border-bottom: 1px solid #323650;
+	border-radius: 0;
+	-webkit-highlight: none;
+	padding: 0;
+	color: $font-secondary-color;
+	font-size: 1.2rem;
+}
+
+.input-stripped[type='text']::placeholder {
+	color: $font-placeholder-color;
+}
+
 // HELPERS
 .no-wrap {
 	flex-wrap: nowrap !important;
