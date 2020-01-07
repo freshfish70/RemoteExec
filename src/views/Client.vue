@@ -7,7 +7,12 @@
 			</ul>
 		</section>
 		<section id="content" class="">
-			<b-table borderless :items="items" :fields="fields">
+			<b-table
+				borderless
+				class="table-compact"
+				:items="items"
+				:fields="fields"
+			>
 				<template v-slot:cell(running)="data">
 					<div
 						class="connection-state connected"
