@@ -20,41 +20,60 @@
 			</b-form>
 		</section>
 		<section id="content" class="d-flex flex-column">
-			<b-table borderless class="table-spaced" :items="items" :fields="fields">
+			<b-table
+				borderless
+				class="table-spaced"
+				:items="items"
+				:fields="fields"
+			>
 				<template v-slot:cell(select)="data">
 					<b-form-checkbox />
 				</template>
 				<template v-slot:cell(run)="data">
-					<img class="toggle-image" src="/images/icons/play.png" v-if="data.value" />
-					<img class="toggle-image" src="/images/icons/stop.png" v-else />
+					<img
+						class="toggle-image"
+						src="/images/icons/play.png"
+						v-if="data.value"
+					/>
+					<img
+						class="toggle-image"
+						src="/images/icons/stop.png"
+						v-else
+					/>
 				</template>
 				<template v-slot:cell(edit)="data">
-					<router-link to="/app/client/4/execution/IDHERE">
+					<div v-b-modal.executionModalForm>
 						<img class="toggle-image" src="/images/icons/pen.png" />
-					</router-link>
+					</div>
 				</template>
 			</b-table>
 			<div class="align-self-center text-center d-flex flex-column">
 				<router-link to="#">
-					<img class="add-item-image mb-2" src="/images/icons/add.png" />
+					<img
+						class="add-item-image mb-2"
+						src="/images/icons/add.png"
+					/>
 				</router-link>
 				<span>Add executable</span>
 			</div>
 		</section>
+		<execution-form-modal />
 	</div>
 </template>
 <script>
 import { Component, Vue } from 'vue-property-decorator'
 import Card from '@/components/card/card'
+import ExecutionFormModal from '@/components/ExecutionFormModal.vue'
 
 @Component({
 	components: {
 		clientCard: Card,
+		executionFormModal: ExecutionFormModal,
 	},
 })
 export default class Client extends Vue {
 	fields = [
-		{ key: 'select', label: '' },
+		{ key: 'select', label: '', thClass: 'table-icon-column' },
 		{
 			key: 'executable',
 		},

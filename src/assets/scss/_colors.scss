@@ -28,6 +28,10 @@ $font-secondary-color: #686d92;
 $font-placeholder-color: #323650;
 $logo-color: #375bd1;
 
+.component-background {
+	background: $component-color;
+}
+
 .green-color {
 	color: $green-color;
 }

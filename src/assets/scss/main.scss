@@ -266,3 +266,19 @@ body {
 .add-item-image {
 	width: 3rem;
 }
+
+.uppercase {
+	text-transform: uppercase;
+}
+
+//MODAL
+.modal-title {
+	font-family: 'OpenSansBold';
+	text-transform: uppercase;
+	font-size: 2rem;
+	color: $font-header-color;
+}
+
+.modal-form-feedback {
+	min-height: 1.2rem;
+}
