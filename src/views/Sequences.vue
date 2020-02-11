@@ -6,21 +6,17 @@
 				<li>2001:db8:85a3:0:0:8a2e:370:7334</li>
 			</ul>
 		</section>
-		<section id="content" class="">
+		<section id="content" class="d-flex flex-column">
 			<b-table
 				borderless
-				class="table-compact"
+				class="table-spaced"
 				:items="items"
 				:fields="fields"
 			>
-				<template v-slot:cell(running)="data">
-					<div
-						class="connection-state connected"
-						v-if="data.value"
-					></div>
-					<div class="connection-state disconnected" v-else></div>
+				<template v-slot:cell(select)="data">
+					<b-form-checkbox />
 				</template>
-				<template v-slot:cell(toggle)="data">
+				<template v-slot:cell(run)="data">
 					<img
 						class="toggle-image"
 						src="/images/icons/play.png"
@@ -32,10 +28,10 @@
 						v-else
 					/>
 				</template>
-				<template v-slot:cell(view)="data">
-					<router-link to="/app/client/4/execution/IDHERE"
-						><img class="toggle-image" src="/images/icons/eye.png"
-					/></router-link>
+				<template v-slot:cell(edit)>
+					<div v-b-modal.executionModalForm>
+						<img class="toggle-image" src="/images/icons/pen.png" />
+					</div>
 				</template>
 			</b-table>
 		</section>
@@ -55,16 +51,14 @@ export default class Sequences extends Vue {
 	fields = [
 		{ key: 'select', label: '', thClass: 'table-icon-column' },
 		{
-			key: 'executable',
+			key: 'sequence',
 		},
 		{
-			key: 'arguments',
-		},
-		{
-			key: 'delay',
+			key: 'clients',
 		},
 		{
 			key: 'status',
+			thClass: 'table-icon-column',
 		},
 		{
 			key: 'run',
@@ -77,23 +71,20 @@ export default class Sequences extends Vue {
 	]
 	items = [
 		{
-			executable: 'test.exe',
-			arguments: '-arg 1 fullscreen',
-			delay: '5',
+			sequence: 'Awesome simulation',
+			clients: 'Client1, Client 2',
 			status: 'running',
 			run: true,
 		},
 		{
-			executable: 'text.exe',
-			arguments: '-arg 1 fullscreen',
-			delay: '6',
+			sequence: 'Random software',
+			clients: 'Client1, Client 2',
 			status: 'Waiting',
 			run: false,
 		},
 		{
-			executable: 'test.exe',
-			arguments: '-arg 1 fullscreen',
-			delay: '2        ',
+			sequence: 'Awesome simulation',
+			clients: 'Client1, Client 2',
 			status: 'Stopped',
 			run: true,
 		},
