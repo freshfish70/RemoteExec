@@ -25,9 +25,8 @@
 						:state="false"
 						class="modal-form-feedback"
 						id="execution-name-feedback"
+						>{{ error }}</b-form-invalid-feedback
 					>
-						{{ error }}
-					</b-form-invalid-feedback>
 				</b-form-group>
 
 				<b-form-input
@@ -41,12 +40,12 @@
 		</template>
 
 		<template v-slot:modal-footer="{ ok, cancel, hide }">
-			<b-button class="uppercase" size="" variant="primary" @click="ok()">
-				save
-			</b-button>
-			<b-button class="uppercase" variant="danger" @click="cancel()">
-				cancle
-			</b-button>
+			<b-button class="uppercase" size variant="primary" @click="ok()"
+				>save</b-button
+			>
+			<b-button class="uppercase" variant="danger" @click="cancel()"
+				>cancle</b-button
+			>
 		</template>
 	</b-modal>
 </template>
