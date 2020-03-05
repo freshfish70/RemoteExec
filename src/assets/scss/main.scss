@@ -28,8 +28,7 @@ body {
 	color: $font-primary-color;
 }
 
-#app {
-}
+#app {}
 
 #app-main {
 	display: grid;
@@ -186,6 +185,12 @@ body {
 }
 
 // TABLE
+.table-superheader {
+	height: 4.5rem;
+	background: $compliment-color;
+	border-radius: .8rem .8rem .2rem .2rem;
+}
+
 .table {
 	color: $font-primary-color;
 
