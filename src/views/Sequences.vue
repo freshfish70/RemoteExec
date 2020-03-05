@@ -30,7 +30,12 @@
 				</template>
 				<template v-slot:cell(edit)>
 					<div v-b-modal.executionModalForm>
-						<img class="toggle-image" src="/images/icons/pen.png" />
+						<router-link to="groupsequence/1">
+							<img
+								class="toggle-image"
+								src="/images/icons/pen.png"
+							/>
+						</router-link>
 					</div>
 				</template>
 			</b-table>
