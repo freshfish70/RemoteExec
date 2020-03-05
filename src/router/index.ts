@@ -6,6 +6,7 @@ import Clients from '../views/Clients.vue'
 import Client from '../views/Client.vue'
 import ClientExecution from '../views/ClientExecution.vue'
 import Sequences from '../views/Sequences.vue'
+import GroupSequence from '../views/GroupSequence.vue'
 import Settings from '../views/Settings.vue'
 
 Vue.use(VueRouter)
@@ -71,6 +72,15 @@ const routes: RouteConfigExtended[] = [
 				meta: {
 					title: 'Sequences',
 					subtitle: 'sequences',
+				},
+			},
+			{
+				path: 'groupsequence/:id',
+				name: 'Group sequence',
+				component: GroupSequence,
+				meta: {
+					title: 'Group sequence',
+					subtitle: 'group sequence',
 				},
 			},
 			{
