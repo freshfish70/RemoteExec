@@ -20,7 +20,22 @@
 			</b-form>
 		</section>
 		<section id="content" class="d-flex flex-column">
-			<div class="d-flex table-superheader"></div>
+			<div class="b-container table-superheader">
+				<b-row>
+					<b-col>
+						<div
+							class="connection-state connected inline-block"
+						></div>
+						<h2 class="inline-block">Client 2</h2>
+					</b-col>
+					<b-col
+						class="d-flex align-items-center justify-content-center"
+					>
+						<span>5 min</span></b-col
+					>
+					<b-col></b-col>
+				</b-row>
+			</div>
 			<b-table
 				borderless
 				class="table-spaced"
