@@ -19,6 +19,9 @@
 				></b-form-input>
 			</b-form>
 		</section>
+		<section class="d-flex pb-5">
+			<b-button active="true" variant="primary"> Add client </b-button>
+		</section>
 		<section id="content" class="d-flex flex-column">
 			<div class="b-container table-superheader">
 				<b-row class="h-100 align-items-center">
@@ -31,7 +34,7 @@
 					<b-col
 						class="d-flex align-items-center justify-content-center"
 					>
-						<span>5 min</span></b-col
+						<span>10 seconds</span></b-col
 					>
 					<b-col></b-col>
 				</b-row>
