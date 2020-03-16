@@ -21,12 +21,12 @@
 		</section>
 		<section id="content" class="d-flex flex-column">
 			<div class="b-container table-superheader">
-				<b-row>
+				<b-row class="h-100 align-items-center">
 					<b-col>
 						<div
-							class="connection-state connected inline-block"
+							class="connection-state connected d-inline-block mx-3"
 						></div>
-						<h2 class="inline-block">Client 2</h2>
+						<h2 class="d-inline-block">Client 2</h2>
 					</b-col>
 					<b-col
 						class="d-flex align-items-center justify-content-center"
@@ -63,31 +63,44 @@
 					</div>
 				</template>
 			</b-table>
+			<div class="align-self-center text-center d-flex flex-column">
+				<router-link to="#">
+					<img
+						class="add-item-image mb-2"
+						src="/images/icons/add.png"
+					/>
+				</router-link>
+				<span>Add executable</span>
+			</div>
 		</section>
+		<execution-form-modal />
 	</div>
 </template>
 <script>
 import { Component, Vue } from 'vue-property-decorator'
 import Card from '@/components/card/card'
 import ExecutionFormModal from '@/components/ExecutionFormModal.vue'
+
 @Component({
 	components: {
 		clientCard: Card,
 		executionFormModal: ExecutionFormModal,
 	},
 })
-export default class Sequences extends Vue {
+export default class Client extends Vue {
 	fields = [
 		{ key: 'select', label: '', thClass: 'table-icon-column' },
 		{
-			key: 'sequence',
+			key: 'executable',
 		},
 		{
-			key: 'clients',
+			key: 'arguments',
+		},
+		{
+			key: 'delay',
 		},
 		{
 			key: 'status',
-			thClass: 'table-icon-column',
 		},
 		{
 			key: 'run',
@@ -100,20 +113,23 @@ export default class Sequences extends Vue {
 	]
 	items = [
 		{
-			sequence: 'Awesome simulation',
-			clients: 'Client1, Client 2',
+			executable: 'test.exe',
+			arguments: '-arg 1 fullscreen',
+			delay: '5',
 			status: 'running',
 			run: true,
 		},
 		{
-			sequence: 'Random software',
-			clients: 'Client1, Client 2',
+			executable: 'text.exe',
+			arguments: '-arg 1 fullscreen',
+			delay: '6',
 			status: 'Waiting',
 			run: false,
 		},
 		{
-			sequence: 'Awesome simulation',
-			clients: 'Client1, Client 2',
+			executable: 'test.exe',
+			arguments: '-arg 1 fullscreen',
+			delay: '2        ',
 			status: 'Stopped',
 			run: true,
 		},
