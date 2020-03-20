@@ -29,22 +29,22 @@ function createLogger() {
 		serializers: {
 			req: require('bunyan-express-serializer'),
 			res: bunyan.stdSerializers.res,
-			err: bunyan.stdSerializers.err
+			err: bunyan.stdSerializers.err,
 		},
 		streams: [
 			{
 				level: 'debug',
-				stream: process.stdout
+				stream: process.stdout,
 			},
 			{
 				level: 'info',
-				path: logDirectory + '/info.log'
+				path: logDirectory + '/info.log',
 			},
 			{
 				level: 'error',
-				path: logDirectory + '/error.log'
-			}
-		]
+				path: logDirectory + '/error.log',
+			},
+		],
 	})
 
 	return bun

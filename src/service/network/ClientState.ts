@@ -3,5 +3,5 @@
  */
 export enum ClientState {
 	AUTHENTICATED,
-	HANDSHAKING
+	HANDSHAKING,
 }

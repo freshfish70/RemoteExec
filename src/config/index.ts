@@ -15,6 +15,6 @@ const env = process.env
  */
 export const config = {
 	network: {
-		port: dotenv.parsed.SERVER_PORT
-	}
+		port: dotenv.parsed.SERVER_PORT,
+	},
 }
