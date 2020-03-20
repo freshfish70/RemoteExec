@@ -10,6 +10,7 @@ const storageSchema = {
 		items: {
 			type: 'object',
 			propterties: {
+				id: { type: 'string' },
 				name: { type: 'string' },
 				ip: {
 					type: 'object',
@@ -30,7 +31,7 @@ const storageSchema = {
 						type: 'object',
 						properties: {
 							eid: { type: 'number' },
-							file: { type: 'string' },
+							application: { type: 'string' },
 							path: { type: 'string' },
 							arguments: { type: 'string' },
 							delay: { type: 'number' },
@@ -59,7 +60,11 @@ const generalStore = () => {
 export { generalStore }
 
 // Get functions
-const get = {}
+const get = {
+	client: {
+		byEid: (eid: number) => {},
+	},
+}
 
 // Set functions
 const set = {}
