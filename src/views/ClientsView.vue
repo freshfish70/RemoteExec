@@ -2,12 +2,11 @@
 	<div id="page-content">
 		<section id="content-top"></section>
 		<section id="content" class="">
-			<button v-on:click="test"></button>
 			<div class="client-group">
 				<router-link
 					v-for="client in clients"
 					v-bind:key="client.id"
-					to="/app/client/test"
+					:to="'/app/client/' + client.id"
 				>
 					<b-card
 						class="drop-shadow"
@@ -15,9 +14,7 @@
 						style="max-width: 25rem; min-width: 22rem;"
 					>
 						<div class="connection-state connected"></div>
-						<b-card-title v-on:click="remove(client.id)">{{
-							client.name
-						}}</b-card-title>
+						<b-card-title>{{ client.name }}</b-card-title>
 						<b-card-text>
 							{{
 								client.ipAddresses.ipv4
