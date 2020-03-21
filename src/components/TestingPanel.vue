@@ -1,5 +1,5 @@
 <template>
-	<div id="testingpanel">
+	<div id="testingpanel" :class="{ flat: this.hide }">
 		<b-button id="hidebutton" v-on:click="togglePanel"
 			>{{ this.hide ? 'Show' : 'Hide' }} panel</b-button
 		>
@@ -84,13 +84,14 @@ export default class TestingPanel extends Vue {
 </script>
 <style lang="scss" scoped>
 #testingpanel {
-	z-index: 999;
+	z-index: 50;
 	width: 50vw;
 	height: 100vh;
 	position: absolute;
 	right: 0;
 }
 #hidebutton {
+	z-index: 50;
 	position: absolute;
 	right: 0;
 	top: 0;
@@ -98,8 +99,13 @@ export default class TestingPanel extends Vue {
 .clientslist {
 	padding: 0.5rem 0;
 }
+.flat {
+	width: 1px !important;
+}
+
 .hiddenpanel {
 	display: none;
+	width: 1px;
 }
 
 .panelmain {
