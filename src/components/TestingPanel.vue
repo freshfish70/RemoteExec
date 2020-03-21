@@ -4,9 +4,24 @@
 			>{{ this.hide ? 'Show' : 'Hide' }} panel</b-button
 		>
 		<div class="panelmain" :class="{ hiddenpanel: this.hide }">
-			<b-button variant="primary" v-on:click="addClientToStore"
-				>Add client</b-button
-			>
+			<section id="clients">
+				<b-button variant="primary" v-on:click="addClientToStore"
+					>Add client</b-button
+				>
+				<ul>
+					<li
+						class="clientslist"
+						v-for="(client, index) in clients"
+						:key="index"
+					>
+						{{ client.name }}<br />
+						<b-button class="mr-1">Connect</b-button>
+						<b-button v-on:click="removeClient(client.id)"
+							>Remove</b-button
+						>
+					</li>
+				</ul>
+			</section>
 		</div>
 	</div>
 </template>
@@ -25,6 +40,8 @@ export default class TestingPanel extends Vue {
 
 	@clients.Mutation
 	public addClient!: (client: Client) => void
+	@clients.Mutation
+	public removeClient!: (id: string) => void
 
 	private hide: boolean = false
 
@@ -46,7 +63,7 @@ export default class TestingPanel extends Vue {
 	}
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 #testingpanel {
 	z-index: 999;
 	width: 50vw;
@@ -59,7 +76,9 @@ export default class TestingPanel extends Vue {
 	right: 0;
 	top: 0;
 }
-
+.clientslist {
+	padding: 0.5rem 0;
+}
 .hiddenpanel {
 	display: none;
 }
@@ -67,5 +86,6 @@ export default class TestingPanel extends Vue {
 .panelmain {
 	background: #12131f;
 	height: 100%;
+	padding: 1rem;
 }
 </style>
