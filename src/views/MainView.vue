@@ -19,7 +19,7 @@ import Sidebar from '@/components/menu/sidebar.vue'
 		sidebar: Sidebar,
 	},
 })
-export default class Index extends Vue {
+export default class MainView extends Vue {
 	title: string = 'Title'
 	subtitle: string = 'subtitle'
 }

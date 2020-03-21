@@ -50,7 +50,7 @@ import Card from '@/components/card/card'
 		clientCard: Card,
 	},
 })
-export default class Client extends Vue {
+export default class ClientView extends Vue {
 	fields = [
 		{
 			key: 'running',

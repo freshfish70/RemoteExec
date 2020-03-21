@@ -1,10 +1,23 @@
 <template>
 	<div id="page-content">
-		<section id="content-top">
-			<ul class="client-info">
-				<li>129.123.123.232</li>
-				<li>2001:db8:85a3:0:0:8a2e:370:7334</li>
-			</ul>
+		<section id="content-top" class="no-border">
+			<b-form inline class="no-wrap">
+				<b-form-input
+					id="execution-name"
+					class="w-25 mr-5 py-3 input-stripped"
+					type="text"
+					required
+					placeholder="Eexitxecution name"
+				></b-form-input>
+
+				<b-form-input
+					id="execution-description"
+					class="w-100 py-3 input-stripped"
+					type="text"
+					required
+					placeholder="Execution description"
+				></b-form-input>
+			</b-form>
 		</section>
 		<section id="content" class="d-flex flex-column">
 			<b-table
@@ -30,40 +43,48 @@
 				</template>
 				<template v-slot:cell(edit)>
 					<div v-b-modal.executionModalForm>
-						<router-link to="groupsequence/1">
-							<img
-								class="toggle-image"
-								src="/images/icons/pen.png"
-							/>
-						</router-link>
+						<img class="toggle-image" src="/images/icons/pen.png" />
 					</div>
 				</template>
 			</b-table>
+			<div class="align-self-center text-center d-flex flex-column">
+				<router-link to="#">
+					<img
+						class="add-item-image mb-2"
+						src="/images/icons/add.png"
+					/>
+				</router-link>
+				<span>Add executable</span>
+			</div>
 		</section>
+		<execution-form-modal />
 	</div>
 </template>
 <script>
 import { Component, Vue } from 'vue-property-decorator'
 import Card from '@/components/card/card'
 import ExecutionFormModal from '@/components/ExecutionFormModal.vue'
+
 @Component({
 	components: {
 		clientCard: Card,
 		executionFormModal: ExecutionFormModal,
 	},
 })
-export default class Sequences extends Vue {
+export default class ClientExecutionView extends Vue {
 	fields = [
 		{ key: 'select', label: '', thClass: 'table-icon-column' },
 		{
-			key: 'sequence',
+			key: 'executable',
 		},
 		{
-			key: 'clients',
+			key: 'arguments',
+		},
+		{
+			key: 'delay',
 		},
 		{
 			key: 'status',
-			thClass: 'table-icon-column',
 		},
 		{
 			key: 'run',
@@ -76,20 +97,23 @@ export default class Sequences extends Vue {
 	]
 	items = [
 		{
-			sequence: 'Awesome simulation',
-			clients: 'Client1, Client 2',
+			executable: 'test.exe',
+			arguments: '-arg 1 fullscreen',
+			delay: '5',
 			status: 'running',
 			run: true,
 		},
 		{
-			sequence: 'Random software',
-			clients: 'Client1, Client 2',
+			executable: 'text.exe',
+			arguments: '-arg 1 fullscreen',
+			delay: '6',
 			status: 'Waiting',
 			run: false,
 		},
 		{
-			sequence: 'Awesome simulation',
-			clients: 'Client1, Client 2',
+			executable: 'test.exe',
+			arguments: '-arg 1 fullscreen',
+			delay: '2        ',
 			status: 'Stopped',
 			run: true,
 		},

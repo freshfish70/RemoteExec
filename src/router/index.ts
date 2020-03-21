@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import VueRouter, { RouterOptions, RouteConfig } from 'vue-router'
-import Login from '../views/Login.vue'
-import Main from '../views/Main.vue'
-import Clients from '../views/Clients.vue'
-import Client from '../views/Client.vue'
-import ClientExecution from '../views/ClientExecution.vue'
-import Sequences from '../views/Sequences.vue'
-import GroupSequence from '../views/GroupSequence.vue'
-import Settings from '../views/Settings.vue'
+import Login from '../views/LoginView.vue'
+import Main from '../views/MainView.vue'
+import Clients from '../views/ClientsView.vue'
+import Client from '../views/ClientView.vue'
+import ClientExecution from '../views/ClientExecutionView.vue'
+import Sequences from '../views/SequencesView.vue'
+import GroupSequence from '../views/GroupSequenceView.vue'
+import Settings from '../views/SettingsView.vue'
 
 Vue.use(VueRouter)
 
