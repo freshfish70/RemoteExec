@@ -7,7 +7,7 @@ import Vue from 'vue'
  * in local store.
  */
 @Module({ namespaced: true, name: 'clients' })
-export default class Clients extends VuexModule {
+export class Clients extends VuexModule {
 	// Holds all clients available from storage / connected
 	public clients: Array<Client> = new Array<Client>()
 
