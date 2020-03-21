@@ -1,5 +1,6 @@
 import { VuexModule, Module, Mutation, Action } from 'vuex-module-decorators'
 import { Client } from '@/lib/client/Client'
+import Vue from 'vue'
 
 /**
  * This module handles all clients connected/available
@@ -19,13 +20,32 @@ export default class Clients extends VuexModule {
 		this.clients.push(client)
 	}
 	/**
-	 * Adds a client to the store
-	 * @param client the client to add
+	 * Remove the client from the vuex store, and propagte to
+	 * remove client from the local database.
+	 * @param clientId the client to remove
 	 */
 	@Mutation
 	public removeClient(clientId: string) {
 		// !TODO: Remove from actuale store
 		let i = this.clients.findIndex(c => c.id == clientId)
 		if (i != -1) this.clients.splice(i, 1)
+	}
+	/**
+	 * Sets the clients connected state > connected/disconected
+	 * @param clientId the client to find
+	 * @param connected true if client connected, else false
+	 */
+	@Mutation
+	public setConnectedState({
+		clientId,
+		connected,
+	}: {
+		clientId: string
+		connected: boolean
+	}) {
+		let i = this.clients.findIndex(c => c.id == clientId)
+		if (i != -1) {
+			this.clients[i].connected = connected
+		}
 	}
 }

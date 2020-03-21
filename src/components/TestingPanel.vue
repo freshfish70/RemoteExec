@@ -15,7 +15,18 @@
 						:key="index"
 					>
 						{{ client.name }}<br />
-						<b-button class="mr-1">Connect</b-button>
+						<b-button
+							class="mr-1"
+							v-on:click="
+								setConnectedState({
+									clientId: client.id,
+									connected: !client.connected,
+								})
+							"
+							>{{
+								client.connected ? 'Disconnect' : 'Connect'
+							}}</b-button
+						>
 						<b-button v-on:click="removeClient(client.id)"
 							>Remove</b-button
 						>
@@ -42,6 +53,14 @@ export default class TestingPanel extends Vue {
 	public addClient!: (client: Client) => void
 	@clients.Mutation
 	public removeClient!: (id: string) => void
+	@clients.Mutation
+	public setConnectedState!: ({
+		clientId,
+		connected,
+	}: {
+		clientId: string
+		connected: boolean
+	}) => void
 
 	private hide: boolean = false
 

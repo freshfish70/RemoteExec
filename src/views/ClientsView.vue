@@ -13,7 +13,12 @@
 						img-top
 						style="max-width: 25rem; min-width: 22rem;"
 					>
-						<div class="connection-state connected"></div>
+						<div
+							class="connection-state"
+							:class="[
+								client.connected ? `connected` : `disconnected`,
+							]"
+						></div>
 						<b-card-title>{{ client.name }}</b-card-title>
 						<b-card-text>
 							{{
