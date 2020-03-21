@@ -27,6 +27,8 @@ export class Client {
 	private _validExecutionFolders: Array<string> = []
 	// List of all the created executable applications for this client
 	private _executions: Array<ExecuteableApplication> = []
+	//State flag for connection, true if client is connected
+	private _connected: boolean = false
 
 	constructor(name?: string, id?: string) {
 		if (name) this.name = name
@@ -87,5 +89,13 @@ export class Client {
 
 	public set executions(v: Array<ExecuteableApplication>) {
 		this._executions = v
+	}
+
+	public get connected(): boolean {
+		return this._connected
+	}
+
+	public set connected(v: boolean) {
+		this._connected = v
 	}
 }
