@@ -2,70 +2,57 @@
 	<div id="page-content">
 		<section id="content-top"></section>
 		<section id="content" class="">
+			<button v-on:click="test"></button>
 			<div class="client-group">
-				<router-link to="/app/client/test">
+				<router-link
+					v-for="client in clients"
+					v-bind:key="client.id"
+					to="/app/client/test"
+				>
 					<b-card
 						class="drop-shadow"
 						img-top
 						style="max-width: 25rem; min-width: 22rem;"
 					>
 						<div class="connection-state connected"></div>
-						<b-card-title>Client</b-card-title>
+						<b-card-title v-on:click="remove(client.id)">{{
+							client.name
+						}}</b-card-title>
 						<b-card-text>
-							192.168.1.125<br />
-							2001:db8:85a3:0:0:8a2e:370:7334
+							{{
+								client.ipAddresses.ipv4
+									? client.ipAddresses.ipv4
+									: 'Missing ipv4 address'
+							}}<br />
+							{{
+								client.ipAddresses.ipv6
+									? client.ipAddresses.ipv6
+									: 'Missing ipv6 address'
+							}}
 						</b-card-text>
 					</b-card>
 				</router-link>
-				<b-card
-					class="drop-shadow"
-					img-top
-					style="max-width: 25rem; min-width: 22rem;"
-				>
-					<div class="connection-state disconnected"></div>
-					<b-card-title>Client</b-card-title>
-					<b-card-text>
-						192.168.1.125<br />
-						2001:db8:85a3:0:0:8a2e:370:7334
-					</b-card-text>
-				</b-card>
-				<b-card
-					class="drop-shadow"
-					img-top
-					style="max-width: 25rem; min-width: 22rem;"
-				>
-					<div class="connection-state disconnected"></div>
-					<b-card-title>Client</b-card-title>
-					<b-card-text>
-						192.168.1.125<br />
-						2001:db8:85a3:0:0:8a2e:370:7334
-					</b-card-text>
-				</b-card>
-				<b-card
-					class="drop-shadow"
-					img-top
-					style="max-width: 25rem; min-width: 22rem;"
-				>
-					<div class="connection-state disconnected"></div>
-					<b-card-title>Client</b-card-title>
-					<b-card-text>
-						192.168.1.125<br />
-						2001:db8:85a3:0:0:8a2e:370:7334
-					</b-card-text>
-				</b-card>
 			</div>
 		</section>
 	</div>
 </template>
-<script>
+<script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import Card from '@/components/card/card'
+import { namespace } from 'vuex-class'
+const clients = namespace('Clients')
+
+import Card from '@/components/card/card.vue'
+import { VuexModule } from 'vuex-module-decorators'
+import { Client } from '@/lib/client/Client'
 
 @Component({
 	components: {
 		clientCard: Card,
 	},
 })
-export default class Clients extends Vue {}
+export default class ClientsView extends Vue {
+	@clients.State
+	public clients!: Array<Client>
+}
 </script>
 <style lang="scss"></style>
