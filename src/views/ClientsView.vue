@@ -2,6 +2,9 @@
 	<div id="page-content">
 		<section id="content-top"></section>
 		<section id="content" class="">
+			<div v-if="this.clients.length == 0">
+				<h2>No clients...</h2>
+			</div>
 			<div class="client-group">
 				<router-link
 					v-for="client in clients"
