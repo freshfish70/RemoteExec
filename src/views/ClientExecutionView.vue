@@ -64,12 +64,16 @@
 import { Component, Vue } from 'vue-property-decorator'
 import Card from '@/components/card/card'
 import ExecutionFormModal from '@/components/ExecutionFormModal.vue'
+import TitleMixin from '../mixins/TitleMixin'
 
 @Component({
 	components: {
 		clientCard: Card,
 		executionFormModal: ExecutionFormModal,
 	},
+	title: 'Client execution',
+	subtitle: 'Execution',
+	mixins: [TitleMixin],
 })
 export default class ClientExecutionView extends Vue {
 	fields = [

@@ -46,11 +46,16 @@
 import { Component, Vue } from 'vue-property-decorator'
 import Card from '@/components/card/card'
 import ExecutionFormModal from '@/components/ExecutionFormModal.vue'
+import TitleMixin from '../mixins/TitleMixin'
+
 @Component({
 	components: {
 		clientCard: Card,
 		executionFormModal: ExecutionFormModal,
 	},
+	title: () => 'Sequences',
+	subtitle: 'Random sequences',
+	mixins: [TitleMixin],
 })
 export default class SequencesView extends Vue {
 	fields = [

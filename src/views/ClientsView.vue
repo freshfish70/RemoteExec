@@ -43,17 +43,20 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import { VuexModule } from 'vuex-module-decorators'
+import Card from '@/components/card/card.vue'
+import TitleMixin from '@/mixins/TitleMixin'
+import { Client } from '@/lib/client/Client'
 import { namespace } from 'vuex-class'
 const clients = namespace('Clients')
-
-import Card from '@/components/card/card.vue'
-import { VuexModule } from 'vuex-module-decorators'
-import { Client } from '@/lib/client/Client'
 
 @Component({
 	components: {
 		clientCard: Card,
 	},
+	title: 'Clients',
+	subtitle: 'Connected and disconnected',
+	mixins: [TitleMixin],
 })
 export default class ClientsView extends Vue {
 	@clients.State

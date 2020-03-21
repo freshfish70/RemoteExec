@@ -44,11 +44,15 @@
 <script>
 import { Component, Vue } from 'vue-property-decorator'
 import Card from '@/components/card/card'
+import TitleMixin from '../mixins/TitleMixin'
 
 @Component({
 	components: {
 		clientCard: Card,
 	},
+	title: () => 'Client',
+	subtitle: 'Random client',
+	mixins: [TitleMixin],
 })
 export default class ClientView extends Vue {
 	fields = [
