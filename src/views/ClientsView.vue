@@ -1,6 +1,13 @@
 <template>
 	<div id="page-content">
-		<section id="content-top"></section>
+		<section id="content-top">
+			<ul class="client-info">
+				<li>
+					Connected: {{ getCountOfConnectedClients }} /
+					{{ this.clients.length }}
+				</li>
+			</ul>
+		</section>
 		<section id="content" class="">
 			<div v-if="this.clients.length == 0">
 				<h2>No clients...</h2>
@@ -61,6 +68,17 @@ const clients = namespace('Clients')
 export default class ClientsView extends Vue {
 	@clients.State
 	public clients!: Array<Client>
+
+	/**
+	 * Retunrs the number of connected clients (online)
+	 */
+	public get getCountOfConnectedClients(): number {
+		let connected = 0
+		for (const client of this.clients) {
+			if (client.connected) connected++
+		}
+		return connected
+	}
 }
 </script>
 <style lang="scss"></style>
