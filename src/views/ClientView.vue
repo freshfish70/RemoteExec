@@ -41,20 +41,38 @@
 		</section>
 	</div>
 </template>
-<script>
-import { Component, Vue } from 'vue-property-decorator'
-import Card from '@/components/card/card'
+<script lang="ts">
+import { Vue } from 'vue-property-decorator'
+import Card from '@/components/card/card.vue'
 import TitleMixin from '../mixins/TitleMixin'
+import { Client } from '../lib/client/Client'
+import { Clients } from '@/store/modules/Clients'
+import { State, Getter } from 'vuex-class'
+import Component from 'vue-class-component'
 
 @Component({
 	components: {
 		clientCard: Card,
 	},
-	title: () => 'Client',
-	subtitle: 'Random client',
+	subtitle: 'Client executions',
 	mixins: [TitleMixin],
 })
 export default class ClientView extends Vue {
+	@Getter('Clients/client')
+	private getClient!: (clientId: string) => Client
+
+	private client: Client | undefined
+
+	public clientId!: string
+
+	created() {
+		this.clientId = this.$route.params.id
+		this.client = this.getClient(this.clientId)
+		this.$options.title = this.client
+			? this.client.name
+			: '#Invalid client id'
+	}
+
 	fields = [
 		{
 			key: 'running',
