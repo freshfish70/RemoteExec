@@ -11,6 +11,12 @@ export class Clients extends VuexModule {
 	// Holds all clients available from storage / connected
 	public clients: Array<Client> = new Array<Client>()
 
+	public get client() {
+		return (clientId: string) => {
+			return this.clients.find(c => c.id == clientId)
+		}
+	}
+
 	/**
 	 * Adds a client to the store
 	 * @param client the client to add
