@@ -22,9 +22,6 @@ export class ExecuteableApplication {
 	// Arguments for the application
 	private _arguments: string = ''
 
-	// Delays in milliseconds
-	private _delay: number = 0
-
 	// The state of the process
 	private _processState: ProcessState = ProcessState.STOPPED
 
@@ -34,8 +31,7 @@ export class ExecuteableApplication {
 		description: string,
 		application: string,
 		path: string,
-		args: string,
-		delay: number
+		args: string
 	) {
 		this._eid = eid
 		this._name = name
@@ -43,7 +39,6 @@ export class ExecuteableApplication {
 		this.application = application
 		this.path = path
 		this.arguments = args
-		this.delay = delay
 	}
 
 	public get eid(): string {
@@ -88,14 +83,6 @@ export class ExecuteableApplication {
 
 	public set arguments(v: string) {
 		this._arguments = v
-	}
-
-	public get delay(): number {
-		return this._delay
-	}
-
-	public set delay(v: number) {
-		this._delay = v
 	}
 
 	public get processState(): ProcessState {
