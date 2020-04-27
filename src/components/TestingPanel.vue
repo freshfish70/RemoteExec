@@ -43,6 +43,7 @@ const clients = namespace('Clients')
 
 import { VuexModule } from 'vuex-module-decorators'
 import { Client } from '@/lib/client/Client'
+import { ExecuteableApplication } from '../lib/Execution/ExecuteableApplication'
 
 @Component
 export default class TestingPanel extends Vue {
@@ -77,7 +78,29 @@ export default class TestingPanel extends Vue {
 		cli.ipAddresses.ipv6 = '2001:db8:85a3::8a2e:370:7334'
 		cli.firstSeen = Date.now().toString()
 		cli.lastSeend = Date.now().toString()
+		cli.executions.push(
+			new ExecuteableApplication(
+				'22',
+				'A not so super process',
+				'But this process has a description',
+				'test.exe',
+				'C:/Home/dir',
+				'-e -a',
+				5
+			),
+			new ExecuteableApplication(
+				'33',
+				'SomeSuperProcess',
+				'A process that is super',
+				'builder.exe',
+				'A:/Applications/test',
+				'-runWithSomeArgs 5',
+				22
+			)
+		)
 		cli.validExecutionFolders = ['C:/Home/dir', 'A:/Applications/test']
+		console.log(cli)
+
 		this.addClient(cli)
 	}
 }
