@@ -67,11 +67,11 @@ export class Client {
 		this._firstSeen = v
 	}
 
-	public get lastSeend(): string {
+	public get lastSeen(): string {
 		return this._lastSeen
 	}
 
-	public set lastSeend(v: string) {
+	public set lastSeen(v: string) {
 		this._lastSeen = v
 	}
 

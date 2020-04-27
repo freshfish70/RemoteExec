@@ -77,7 +77,7 @@ export default class TestingPanel extends Vue {
 		cli.ipAddresses.ipv4 = '127.0.0.1'
 		cli.ipAddresses.ipv6 = '2001:db8:85a3::8a2e:370:7334'
 		cli.firstSeen = Date.now().toString()
-		cli.lastSeend = Date.now().toString()
+		cli.lastSeen = Date.now().toString()
 		cli.executions.push(
 			new ExecuteableApplication(
 				'22',
