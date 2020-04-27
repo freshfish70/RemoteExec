@@ -19,7 +19,13 @@ export class ExecuteableApplication {
 		path: string,
 		args: string,
 		delay: number
-	) {}
+	) {
+		this._eid = eid
+		this.application = application
+		this.path = path
+		this.arguments = args
+		this.delay = delay
+	}
 
 	public get eid(): string {
 		return this._eid
