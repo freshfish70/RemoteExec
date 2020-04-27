@@ -44,6 +44,8 @@ const clients = namespace('Clients')
 import { VuexModule } from 'vuex-module-decorators'
 import { Client } from '@/lib/client/Client'
 import { ExecuteableApplication } from '../lib/Execution/ExecuteableApplication'
+import { ClientGroupExecution } from '../lib/Execution/ClientGroupExecution'
+import { Executable } from '../lib/Execution/Executable'
 
 @Component
 export default class TestingPanel extends Vue {
@@ -52,6 +54,7 @@ export default class TestingPanel extends Vue {
 
 	@clients.Mutation
 	public addClient!: (client: Client) => void
+
 	@clients.Mutation
 	public removeClient!: (id: string) => void
 	@clients.Mutation
@@ -85,8 +88,7 @@ export default class TestingPanel extends Vue {
 				'But this process has a description',
 				'test.exe',
 				'C:/Home/dir',
-				'-e -a',
-				5
+				'-e -a'
 			),
 			new ExecuteableApplication(
 				'33',
@@ -94,13 +96,14 @@ export default class TestingPanel extends Vue {
 				'A process that is super',
 				'builder.exe',
 				'A:/Applications/test',
-				'-runWithSomeArgs 5',
-				22
+				'-runWithSomeArgs 5'
 			)
 		)
+		let grp = new ClientGroupExecution('Simulator', 'Boat simulator')
+		grp.addExecutable(new Executable(cli.executions[0], 3600))
+		grp.addExecutable(new Executable(cli.executions[1], 3600))
+		cli.addGroupExecution(grp)
 		cli.validExecutionFolders = ['C:/Home/dir', 'A:/Applications/test']
-		console.log(cli)
-
 		this.addClient(cli)
 	}
 }

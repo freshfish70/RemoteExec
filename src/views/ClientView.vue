@@ -1,30 +1,32 @@
 <template>
-	<div id="page-content">
+	<div id="page-content" v-if="client">
 		<section id="content-top">
 			<ul class="client-info">
-				<li>129.123.123.232</li>
-				<li>2001:db8:85a3:0:0:8a2e:370:7334</li>
+				<li>{{ client.ipAddresses.ipv4 }}</li>
+				<li>{{ client.ipAddresses.ipv6 }}</li>
 			</ul>
 		</section>
 		<section id="content" class="">
 			<b-table
 				borderless
 				class="table-compact"
-				:items="items"
+				:items="groupExecutions"
 				:fields="fields"
 			>
-				<template v-slot:cell(running)="data">
+				<template v-slot:cell(state)="data">
 					<div
-						class="connection-state connected"
-						v-if="data.value"
+						class="connection-state"
+						:class="getStateClass(data.value)"
 					></div>
-					<div class="connection-state disconnected" v-else></div>
+				</template>
+				<template v-slot:cell(description)="data">
+					{{ data.value }}
 				</template>
 				<template v-slot:cell(toggle)="data">
 					<img
 						class="toggle-image"
 						src="/images/icons/play.png"
-						v-if="data.value"
+						v-if="canStartGroupSequence(data.item.state)"
 					/>
 					<img
 						class="toggle-image"
@@ -32,7 +34,7 @@
 						v-else
 					/>
 				</template>
-				<template v-slot:cell(view)="data">
+				<template v-slot:cell(view)="">
 					<router-link to="/app/client/4/execution/IDHERE"
 						><img class="toggle-image" src="/images/icons/eye.png"
 					/></router-link>
@@ -42,13 +44,17 @@
 	</div>
 </template>
 <script lang="ts">
-import { Vue } from 'vue-property-decorator'
+import { Vue, Watch } from 'vue-property-decorator'
 import Card from '@/components/card/card.vue'
 import TitleMixin from '../mixins/TitleMixin'
 import { Client } from '../lib/client/Client'
-import { Clients } from '@/store/modules/Clients'
 import { State, Getter } from 'vuex-class'
 import Component from 'vue-class-component'
+import { ExecuteableApplication } from '../lib/Execution/ExecuteableApplication'
+import { ProcessState } from '../lib/Execution/ProcessState'
+import { ClientGroupExecution } from '../lib/Execution/ClientGroupExecution'
+import { Executable } from '../lib/Execution/Executable'
+import { GroupExecution } from '../lib/Execution/GroupExecution'
 
 @Component({
 	components: {
@@ -65,17 +71,58 @@ export default class ClientView extends Vue {
 
 	public clientId!: string
 
+	public groupExecutions: Array<ClientGroupExecution> = new Array()
+
 	created() {
 		this.clientId = this.$route.params.id
 		this.client = this.getClient(this.clientId)
 		this.$options.title = this.client
 			? this.client.name
 			: '#Invalid client id'
+
+		this.groupExecutions = Vue.observable(this.client.groupExecutions)
 	}
 
-	fields = [
+	/**
+	 * Returns the state class for the processes state
+	 * Green/yellow/red background
+	 */
+	getStateClass(processState: ProcessState): string {
+		let stateClass = ''
+		switch (processState) {
+			case ProcessState.RUNNING:
+				stateClass = 'green-background'
+				break
+			case ProcessState.STARTED:
+				stateClass = 'yellow-background'
+				break
+			default:
+				stateClass = 'red-background'
+				break
+		}
+		return stateClass
+	}
+
+	/**
+	 * Returns true if can start the group sequence, else false
+	 */
+	canStartGroupSequence(processState: ProcessState): boolean {
+		let canStart = false
+		switch (processState) {
+			case ProcessState.RUNNING:
+			case ProcessState.STARTED:
+				canStart = false
+				break
+			default:
+				canStart = true
+				break
+		}
+		return canStart
+	}
+
+	private fields = [
 		{
-			key: 'running',
+			key: 'state',
 			label: ' ',
 			thClass: 'table-icon-column',
 		},
@@ -97,29 +144,5 @@ export default class ClientView extends Vue {
 			thClass: 'table-icon-column',
 		},
 	]
-	items = [
-		{
-			running: true,
-			name: 'Application zero',
-			description: 'application zero description',
-			created: '23.03.2019',
-			toggle: true,
-		},
-		{
-			running: false,
-			name: 'Application one',
-			description: 'application one description',
-			created: '23.03.2019',
-			toggle: false,
-		},
-		{
-			running: true,
-			name: 'Application two',
-			description: 'application two description',
-			created: '23.03.2019',
-			toggle: true,
-		},
-	]
 }
 </script>
-<style lang="scss"></style>
