@@ -7,7 +7,9 @@
 					class="w-25 mr-5 py-3 input-stripped"
 					type="text"
 					required
-					placeholder="Eexitxecution name"
+					placeholder="Group execution name"
+					:value="groupExecution ? groupExecution.name : ''"
+					v-on:update="updateGroupExecutionName"
 				></b-form-input>
 
 				<b-form-input
@@ -15,7 +17,9 @@
 					class="w-100 py-3 input-stripped"
 					type="text"
 					required
-					placeholder="Execution description"
+					placeholder="Description"
+					:value="groupExecution ? groupExecution.description : ''"
+					v-on:update="updateGroupExecutionDescription"
 				></b-form-input>
 			</b-form>
 		</section>
@@ -23,17 +27,43 @@
 			<b-table
 				borderless
 				class="table-spaced"
-				:items="items"
+				:items="executables"
 				:fields="fields"
 			>
 				<template v-slot:cell(select)="data">
 					<b-form-checkbox />
 				</template>
-				<template v-slot:cell(run)="data">
+				<template v-slot:cell(executable)="data">
+					{{ data.item.executableApplication.application }}
+				</template>
+				<template v-slot:cell(arguments)="data">
+					{{ data.item.executableApplication.arguments }}
+				</template>
+				<template v-slot:cell(status)="data">
+					<span
+						:class="
+							getStateNameString(
+								data.item.executableApplication.processState
+							)
+						"
+					>
+						{{
+							getStateNameString(
+								data.item.executableApplication.processState
+							)
+						}}</span
+					>
+				</template>
+
+				<template v-slot:cell(state)="data">
 					<img
 						class="toggle-image"
 						src="/images/icons/play.png"
-						v-if="data.value"
+						v-if="
+							canStartProcess(
+								data.item.executableApplication.processState
+							)
+						"
 					/>
 					<img
 						class="toggle-image"
@@ -42,7 +72,7 @@
 					/>
 				</template>
 				<template v-slot:cell(edit)>
-					<div v-b-modal.executionModalForm>
+					<div v-b-modal.abba>
 						<img class="toggle-image" src="/images/icons/pen.png" />
 					</div>
 				</template>
@@ -58,24 +88,80 @@
 			</div>
 		</section>
 		<execution-form-modal />
+		<executable-modal />
 	</div>
 </template>
-<script>
+<script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import Card from '@/components/card/card'
+import Card from '@/components/card/card.vue'
 import ExecutionFormModal from '@/components/ExecutionFormModal.vue'
-import TitleMixin from '../mixins/TitleMixin'
+import ExecutableModal from '@/components/ExecutableModal.vue'
+import TitleMixin from '@/mixins/TitleMixin'
+import ProcessMixin from '@/mixins/ProcessMixin'
+
+import { Client } from '@/lib/client/Client'
+import { State, Getter } from 'vuex-class'
+import { ExecuteableApplication } from '@/lib/Execution/ExecuteableApplication'
+import { ProcessState } from '@/lib/Execution/ProcessState'
+import { ClientGroupExecution } from '@/lib/Execution/ClientGroupExecution'
+import { Executable } from '@/lib/Execution/Executable'
+import { GroupExecution } from '@/lib/Execution/GroupExecution'
+import { mixins } from 'vue-class-component'
 
 @Component({
 	components: {
 		clientCard: Card,
 		executionFormModal: ExecutionFormModal,
+		executableModal: ExecutableModal,
 	},
 	title: 'Client execution',
 	subtitle: 'Execution',
-	mixins: [TitleMixin],
+	mixins: [TitleMixin, ProcessMixin],
 })
-export default class ClientExecutionView extends Vue {
+export default class ClientExecutionView extends mixins(
+	TitleMixin,
+	ProcessMixin
+) {
+	@Getter('Clients/client')
+	private getClient!: (clientId: string) => Client
+
+	private client: Client | undefined
+
+	private clientId!: string
+
+	private groupExecution: ClientGroupExecution | undefined
+
+	private executables: Array<Executable> | undefined
+
+	created() {
+		this.clientId = this.$route.params.id
+		this.client = this.getClient(this.clientId)
+		this.$options.title = this.client
+			? this.client.name
+			: '#Invalid client id'
+
+		this.groupExecution = this.client.getGroupExecutionById(
+			this.$route.params.exid
+		)
+		if (this.groupExecution) {
+			this.executables = Array.from(
+				this.groupExecution.executables.values()
+			)
+		}
+	}
+
+	private createNew() {}
+
+	private updateGroupExecutionName(newName: string) {
+		// TODO: VALIDATE INPUT< MUST BE > 1
+		this.groupExecution!.name = newName
+	}
+
+	private updateGroupExecutionDescription(newDescription: string) {
+		// TODO: VALIDATE INPUT< MUST BE > 1
+		this.groupExecution!.description = newDescription
+	}
+
 	fields = [
 		{ key: 'select', label: '', thClass: 'table-icon-column' },
 		{
@@ -91,35 +177,13 @@ export default class ClientExecutionView extends Vue {
 			key: 'status',
 		},
 		{
-			key: 'run',
+			key: 'state',
+			label: 'Run',
 			thClass: 'table-icon-column',
 		},
 		{
 			key: 'edit',
 			thClass: 'table-icon-column',
-		},
-	]
-	items = [
-		{
-			executable: 'test.exe',
-			arguments: '-arg 1 fullscreen',
-			delay: '5',
-			status: 'running',
-			run: true,
-		},
-		{
-			executable: 'text.exe',
-			arguments: '-arg 1 fullscreen',
-			delay: '6',
-			status: 'Waiting',
-			run: false,
-		},
-		{
-			executable: 'test.exe',
-			arguments: '-arg 1 fullscreen',
-			delay: '2        ',
-			status: 'Stopped',
-			run: true,
 		},
 	]
 }
