@@ -118,6 +118,17 @@ export class Client {
 	}
 
 	/**
+	 * Returns the group execution with the provided id or undefined
+	 * if not found
+	 * @param id the id of the group execution
+	 */
+	public getGroupExecutionById(id: string) {
+		for (const groupExecution of this.groupExecutions) {
+			if (groupExecution.id == id) return groupExecution
+		}
+	}
+
+	/**
 	 * Returns the executable application, or undefined if it cant find the
 	 * executable application.
 	 * @param eid the eid of the executable to get
