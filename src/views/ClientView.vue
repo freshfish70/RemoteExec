@@ -34,8 +34,9 @@
 						v-else
 					/>
 				</template>
-				<template v-slot:cell(view)="">
-					<router-link to="/app/client/4/execution/IDHERE"
+				<template v-slot:cell(id)="data">
+					<router-link
+						:to="`/app/client/${clientId}/execution/${data.value}`"
 						><img class="toggle-image" src="/images/icons/eye.png"
 					/></router-link>
 				</template>
@@ -140,7 +141,7 @@ export default class ClientView extends Vue {
 			thClass: 'table-icon-column',
 		},
 		{
-			key: 'view',
+			key: 'id',
 			thClass: 'table-icon-column',
 		},
 	]
