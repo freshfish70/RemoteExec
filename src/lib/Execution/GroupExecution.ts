@@ -4,6 +4,7 @@ import { ProcessState } from './ProcessState'
  * provide the name, and description for the group executions.
  */
 export class GroupExecution {
+	private _id: string = Date.now().toString()
 	// The name of the group execution
 	private _name: string
 
@@ -21,5 +22,9 @@ export class GroupExecution {
 
 	public get description(): string {
 		return this._description
+	}
+
+	public get id(): string {
+		return this._id
 	}
 }
