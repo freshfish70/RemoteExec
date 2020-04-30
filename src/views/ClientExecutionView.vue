@@ -71,8 +71,8 @@
 						v-else
 					/>
 				</template>
-				<template v-slot:cell(edit)>
-					<div v-b-modal.abba>
+				<template v-slot:cell(edit)="data">
+					<div v-b-modal.abba @click="selectExecutable(data.item.id)">
 						<img class="toggle-image" src="/images/icons/pen.png" />
 					</div>
 				</template>
@@ -84,11 +84,13 @@
 						src="/images/icons/add.png"
 					/>
 				</router-link>
-				<span>Add executable</span>
+				<span v-b-modal.abba @click="selectExecutable('')"
+					>Add executable</span
+				>
 			</div>
 		</section>
 		<execution-form-modal />
-		<executable-modal />
+		<executableModal :existingExecutable="selectedExecutable" />
 	</div>
 </template>
 <script lang="ts">
@@ -133,6 +135,8 @@ export default class ClientExecutionView extends mixins(
 
 	private executables: Array<Executable> | undefined
 
+	private selectedExecutable: Executable | undefined | null = null
+
 	created() {
 		this.clientId = this.$route.params.id
 		this.client = this.getClient(this.clientId)
@@ -148,6 +152,14 @@ export default class ClientExecutionView extends mixins(
 				this.groupExecution.executables.values()
 			)
 		}
+	}
+
+	private selectExecutable(id: string) {
+		if (!this.executables) return
+
+		this.selectedExecutable = this.executables.find(ex => {
+			return ex.id == id
+		})
 	}
 
 	private createNew() {}
