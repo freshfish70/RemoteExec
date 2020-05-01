@@ -1,10 +1,11 @@
 import { ProcessState } from './ProcessState'
+import { v4 as uuidv4 } from 'uuid'
 /**
  * A parent class for creating group executions, this will
  * provide the name, and description for the group executions.
  */
 export class GroupExecution {
-	private _id: string = Date.now().toString()
+	private _id: string = uuidv4()
 	// The name of the group execution
 	private _name: string
 

@@ -1,6 +1,6 @@
 import { JsonSocketProtocol } from './JsonSocketProtocol'
 import { ClientState } from './ClientState'
-import uuid from 'uuid/v1'
+import { v4 as uuidv4 } from 'uuid'
 
 /**
  * Represents a connected client,
@@ -36,7 +36,7 @@ export class Client {
 
 	constructor(socket: JsonSocketProtocol) {
 		this._socket = socket
-		this._id = uuid()
+		this._id = uuidv4()
 	}
 
 	/**

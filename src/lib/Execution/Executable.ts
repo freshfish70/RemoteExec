@@ -1,5 +1,6 @@
 import { ExecuteableApplication } from './ExecuteableApplication'
 import { ProcessState } from './ProcessState'
+import { v4 as uuidv4 } from 'uuid'
 
 /**
  * An executable is an extension of an executable application for
@@ -10,7 +11,7 @@ export class Executable {
 	/**
 	 * Unique id for this executable
 	 */
-	private _id: string = Date.now().toString()
+	private _id: string = uuidv4()
 
 	/**
 	 * The executable application that should be executed
