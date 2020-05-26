@@ -40,7 +40,8 @@
 								client.ipAddresses.ipv6
 									? client.ipAddresses.ipv6
 									: 'Missing ipv6 address'
-							}}
+							}}<br />
+							{{ client.lastSeen }}
 						</b-card-text>
 					</b-card>
 				</router-link>
