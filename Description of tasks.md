@@ -112,6 +112,8 @@ Described in separate document
   - Executable, Arguments, Delay time, process status
 - I should be able to start the process from the list
 - I should be able to edit the execution in a modal window
+  - I should be able to set the name of the process
+  - I should be able to set a description of the process
   - I should be able to set base path
   - I should be able to set the executable 
   - I should be able to set arguments
@@ -127,7 +129,7 @@ Described in separate document
 
 ## Functionality
 
-- I should be able to see number of group sequences that are running
+- I should be able to see the number of group sequences that are running
 - I should be able to add a new group sequence to a list
 - I should be able to select an group sequence and remove it from the list
 - I should be able to see a list of all the group sequences
