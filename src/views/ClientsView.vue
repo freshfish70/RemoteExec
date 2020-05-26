@@ -50,12 +50,10 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { VuexModule } from 'vuex-module-decorators'
 import Card from '@/components/card/card.vue'
 import TitleMixin from '@/mixins/TitleMixin'
 import { Client } from '@/lib/client/Client'
-import { namespace } from 'vuex-class'
-const clients = namespace('Clients')
+import Clients from '@/store/modules/Clients'
 
 @Component({
 	components: {
@@ -66,14 +64,16 @@ const clients = namespace('Clients')
 	mixins: [TitleMixin],
 })
 export default class ClientsView extends Vue {
-	@clients.State
-	public clients!: Array<Client>
+	get clients() {
+		return Clients.clients
+	}
 
 	/**
 	 * Retunrs the number of connected clients (online)
 	 */
 	public get getCountOfConnectedClients(): number {
 		let connected = 0
+
 		for (const client of this.clients) {
 			if (client.connected) connected++
 		}

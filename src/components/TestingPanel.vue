@@ -38,38 +38,40 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { namespace } from 'vuex-class'
-const clients = namespace('Clients')
-
 import { VuexModule } from 'vuex-module-decorators'
 import { Client } from '@/lib/client/Client'
 import { ExecuteableApplication } from '../lib/Execution/ExecuteableApplication'
 import { ClientGroupExecution } from '../lib/Execution/ClientGroupExecution'
 import { Executable } from '../lib/Execution/Executable'
+import { ClientProcessState } from '../types/Execution/ClientProcessState'
+import Clients from '@/store/modules/Clients'
 
 @Component
 export default class TestingPanel extends Vue {
-	@clients.State
-	public clients!: Array<Client>
+	get clients() {
+		return Clients.clients
+	}
 
-	@clients.Mutation
-	public addClient!: (client: Client) => void
+	private updateClientProcessState(newState: ClientProcessState) {
+		Clients.updateClientProcessState(newState)
+	}
 
-	@clients.Mutation
-	public removeClient!: (id: string) => void
-	@clients.Mutation
-	public setConnectedState!: ({
-		clientId,
-		connected,
-	}: {
-		clientId: string
-		connected: boolean
-	}) => void
+	private removeClient(clientId: string) {
+		Clients.removeClient(clientId)
+	}
+
+	private setConnectedState(state: { clientId: string; connected: boolean }) {
+		Clients.setConnectedState(state)
+	}
 
 	private hide: boolean = false
 
 	public togglePanel(): void {
 		this.hide = !this.hide
+	}
+
+	created() {
+		this.addClientToStore()
 	}
 
 	public addClientToStore() {
@@ -104,7 +106,15 @@ export default class TestingPanel extends Vue {
 		grp.addExecutable(new Executable(cli.executions[1], 3600))
 		cli.addGroupExecution(grp)
 		cli.validExecutionFolders = ['C:/Home/dir', 'A:/Applications/test']
-		this.addClient(cli)
+		Clients.addClient(cli)
+
+		setInterval(() => {
+			this.updateClientProcessState({
+				clientId: cli.id,
+				eid: cli.executions[0].eid,
+				state: Math.random() < 0.5 ? 1 : 0,
+			})
+		}, 2500)
 	}
 }
 </script>

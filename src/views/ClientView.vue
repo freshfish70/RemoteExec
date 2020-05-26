@@ -46,16 +46,16 @@
 </template>
 <script lang="ts">
 import { Vue, Watch } from 'vue-property-decorator'
+import Clients from '@/store/modules/Clients'
 import Card from '@/components/card/card.vue'
-import TitleMixin from '../mixins/TitleMixin'
-import { Client } from '../lib/client/Client'
-import { State, Getter } from 'vuex-class'
+import TitleMixin from '@/mixins/TitleMixin'
+import { Client } from '@/lib/client/Client'
 import Component from 'vue-class-component'
-import { ExecuteableApplication } from '../lib/Execution/ExecuteableApplication'
-import { ProcessState } from '../lib/Execution/ProcessState'
-import { ClientGroupExecution } from '../lib/Execution/ClientGroupExecution'
-import { Executable } from '../lib/Execution/Executable'
-import { GroupExecution } from '../lib/Execution/GroupExecution'
+import { ExecuteableApplication } from '@/lib/Execution/ExecuteableApplication'
+import { ProcessState } from '@/lib/Execution/ProcessState'
+import { ClientGroupExecution } from '@/lib/Execution/ClientGroupExecution'
+import { Executable } from '@/lib/Execution/Executable'
+import { GroupExecution } from '@/lib/Execution/GroupExecution'
 
 @Component({
 	components: {
@@ -65,9 +65,6 @@ import { GroupExecution } from '../lib/Execution/GroupExecution'
 	mixins: [TitleMixin],
 })
 export default class ClientView extends Vue {
-	@Getter('Clients/client')
-	private getClient!: (clientId: string) => Client
-
 	private client: Client | undefined
 
 	public clientId!: string
@@ -76,7 +73,8 @@ export default class ClientView extends Vue {
 
 	created() {
 		this.clientId = this.$route.params.id
-		this.client = this.getClient(this.clientId)
+
+		this.client = Clients.client(this.clientId)
 		this.$options.title = this.client
 			? this.client.name
 			: '#Invalid client id'

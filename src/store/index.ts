@@ -7,6 +7,4 @@ import { Clients } from '@/store/modules/Clients'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
-	modules: { App, Clients },
-})
+export default new Vuex.Store({})

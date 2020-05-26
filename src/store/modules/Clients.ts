@@ -1,5 +1,12 @@
-import { VuexModule, Module, Mutation, Action } from 'vuex-module-decorators'
+import {
+	VuexModule,
+	Module,
+	Mutation,
+	Action,
+	getModule,
+} from 'vuex-module-decorators'
 import { Client } from '@/lib/client/Client'
+import store from '../index'
 import Vue from 'vue'
 import { ClientProcessState } from '@/types/Execution/ClientProcessState'
 
@@ -7,7 +14,7 @@ import { ClientProcessState } from '@/types/Execution/ClientProcessState'
  * This module handles all clients connected/available
  * in local store.
  */
-@Module({ namespaced: true, name: 'clients' })
+@Module({ store, namespaced: true, name: 'clients', dynamic: true })
 export class Clients extends VuexModule {
 	// Holds all clients available from storage / connected
 	public clients: Array<Client> = new Array<Client>()
@@ -70,3 +77,5 @@ export class Clients extends VuexModule {
 		}
 	}
 }
+
+export default getModule(Clients)

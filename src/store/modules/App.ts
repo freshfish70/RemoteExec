@@ -1,11 +1,18 @@
-import { VuexModule, Module, Mutation, Action } from 'vuex-module-decorators'
+import {
+	VuexModule,
+	Module,
+	Mutation,
+	Action,
+	getModule,
+} from 'vuex-module-decorators'
 import Vue from 'vue'
+import store from '../index'
 import { Getter } from 'vuex-class'
 
 /**
  * App states
  */
-@Module({ namespaced: true, name: 'App' })
+@Module({ store, namespaced: true, name: 'App', dynamic: true })
 export class App extends VuexModule {
 	public title: string = ''
 	public subtitle: string = ''
@@ -20,3 +27,5 @@ export class App extends VuexModule {
 		this.subtitle = subtitle
 	}
 }
+
+export default getModule(App)

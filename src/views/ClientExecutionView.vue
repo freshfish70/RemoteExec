@@ -100,15 +100,14 @@ import ExecutionFormModal from '@/components/ExecutionFormModal.vue'
 import ExecutableModal from '@/components/ExecutableModal.vue'
 import TitleMixin from '@/mixins/TitleMixin'
 import ProcessMixin from '@/mixins/ProcessMixin'
-
 import { Client } from '@/lib/client/Client'
-import { State, Getter } from 'vuex-class'
 import { ExecuteableApplication } from '@/lib/Execution/ExecuteableApplication'
 import { ProcessState } from '@/lib/Execution/ProcessState'
 import { ClientGroupExecution } from '@/lib/Execution/ClientGroupExecution'
 import { Executable } from '@/lib/Execution/Executable'
 import { GroupExecution } from '@/lib/Execution/GroupExecution'
 import { mixins } from 'vue-class-component'
+import Clients from '@/store/modules/Clients'
 
 @Component({
 	components: {
@@ -124,9 +123,6 @@ export default class ClientExecutionView extends mixins(
 	TitleMixin,
 	ProcessMixin
 ) {
-	@Getter('Clients/client')
-	private getClient!: (clientId: string) => Client
-
 	private client: Client | undefined
 
 	private clientId!: string
@@ -139,7 +135,7 @@ export default class ClientExecutionView extends mixins(
 
 	created() {
 		this.clientId = this.$route.params.id
-		this.client = this.getClient(this.clientId)
+		this.client = Clients.client(this.clientId)
 		this.$options.title = this.client
 			? this.client.name
 			: '#Invalid client id'
