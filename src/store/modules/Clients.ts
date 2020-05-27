@@ -9,6 +9,7 @@ import { Client } from '@/lib/client/Client'
 import store from '../index'
 import Vue from 'vue'
 import { ClientProcessState } from '@/types/Execution/ClientProcessState'
+import { Executable } from '@/lib/Execution/Executable'
 
 /**
  * This module handles all clients connected/available
@@ -74,6 +75,44 @@ export class Clients extends VuexModule {
 		let i = this.clients.findIndex(c => c.id == clientId)
 		if (i != -1) {
 			this.clients[i].connected = connected
+		}
+	}
+
+	@Action
+	public startProcess({
+		clientId,
+		executable,
+	}: {
+		clientId: string
+		executable: Executable
+	}) {
+		let i = this.clients.findIndex(c => c.id == clientId)
+		if (i != -1) {
+			//!TODO - SEND REQUEST TO CLIENT
+			this.updateClientProcessState({
+				clientId,
+				eid: executable.executableApplication.eid,
+				state: 0,
+			}) // !REMOVE THIS LINE - LOCAL TEST
+		}
+	}
+
+	@Action
+	public stopProcess({
+		clientId,
+		executable,
+	}: {
+		clientId: string
+		executable: Executable
+	}) {
+		let i = this.clients.findIndex(c => c.id == clientId)
+		if (i != -1) {
+			//!TODO - SEND REQUEST TO CLIENT
+			this.updateClientProcessState({
+				clientId,
+				eid: executable.executableApplication.eid,
+				state: 1,
+			}) // !REMOVE THIS LINE - LOCAL TEST
 		}
 	}
 }
