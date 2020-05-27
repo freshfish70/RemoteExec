@@ -64,7 +64,7 @@ export default class TestingPanel extends Vue {
 		Clients.setConnectedState(state)
 	}
 
-	private hide: boolean = false
+	private hide: boolean = true
 
 	public togglePanel(): void {
 		this.hide = !this.hide
