@@ -79,6 +79,15 @@ export class Clients extends VuexModule {
 	}
 
 	@Action
+	public saveClient(clientId: string) {
+		let i = this.clients.findIndex(c => c.id == clientId)
+		if (i != -1) {
+			// TODO: SAVE CLIENT TO FILE
+			console.log('SAVING CLIENT')
+		}
+	}
+
+	@Action
 	public startProcess({
 		clientId,
 		executable,
