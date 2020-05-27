@@ -142,9 +142,24 @@ import { getValidatorText } from '@/lib/Validation/getValidatorText'
 /**
  * ExecutableModal is responsible for editing/creating executables for clients
  */
-//! ADD VALIDATION
-//!
-@Component({})
+@Component({
+	mixins: [validationMixin],
+	validations: {
+		description: {
+			required,
+		},
+		executable: {
+			required,
+		},
+		path: {
+			required,
+		},
+		delay: {
+			required,
+			numeric,
+		},
+	},
+})
 export default class ExecutableModal extends Vue {
 	@Prop({
 		type: Object as PropType<Executable>,
@@ -158,25 +173,57 @@ export default class ExecutableModal extends Vue {
 	})
 	existingExecutable: Executable | undefined
 
-	// !TEMPORARY
-	error: string = 'Fields is required'
+	@Prop({
+		type: String,
+		required: true,
+		validator: (userid: string) => {
+			if (userid.length > 0) {
+				return true
+			}
+			return false
+		},
+	})
+	userid: string | undefined
 
 	private description: string = ''
 	private executable: string = ''
 	private path: string = ''
 	private args: string = ''
 	private delay: number = 0
-
 	private show = false
+	private validatorText = getValidatorText()
 
 	@Emit()
-	onUpdated() {
-		if (!this.existingExecutable) return // TODO: CREATE NEW EXECUTABLE
-		this.existingExecutable.executableApplication.description = this.description
-		this.existingExecutable.executableApplication.application = this.executable
-		this.existingExecutable.executableApplication.path = this.path
-		this.existingExecutable.executableApplication.arguments = this.args
-		this.existingExecutable.delay = this.delay
+	onUpdated(): { new: boolean; executable: Executable | null } {
+		let returnState: { new: boolean; executable: Executable | null } = {
+			new: false,
+			executable: null,
+		}
+		if (!this.existingExecutable && !this.$v.$invalid) {
+			let ea = new ExecuteableApplication(
+				Math.random().toString(),
+				this.executable,
+				this.description,
+				this.executable,
+				this.path,
+				this.args
+			)
+			let newExecutable = new Executable(ea, this.delay)
+			returnState = { new: true, executable: newExecutable }
+			this.clearFields()
+		} else if (this.existingExecutable) {
+			this.existingExecutable.executableApplication.description = this.description
+			this.existingExecutable.executableApplication.application = this.executable
+			this.existingExecutable.executableApplication.path = this.path
+			this.existingExecutable.executableApplication.arguments = this.args
+			this.existingExecutable.delay = this.delay
+			returnState = { new: false, executable: this.existingExecutable }
+		}
+		this.close()
+		return returnState
+	}
+
+	private close() {
 		this.show = false
 	}
 
