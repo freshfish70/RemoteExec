@@ -1,6 +1,7 @@
 import { ExecuteableApplication } from '../Execution/ExecuteableApplication'
 import { IpAddresses } from '../Network/IpAddresses'
 import { ClientGroupExecution } from '../Execution/ClientGroupExecution'
+import { Executable } from '../Execution/Executable'
 
 /**
  * A client is a remote machine that is connected or has been connected
@@ -125,6 +126,40 @@ export class Client {
 	public getGroupExecutionById(id: string) {
 		for (const groupExecution of this.groupExecutions) {
 			if (groupExecution.id == id) return groupExecution
+		}
+	}
+
+	/**
+	 * Adds an executable to the a group execution
+	 * @param id the if of the group execution
+	 * @param executable the executable to remove
+	 */
+	public addExecutableToGroupExecutionById(
+		id: string,
+		executable: Executable
+	) {
+		const gex = this.groupExecutions.find(gex => {
+			return gex.id === id
+		})
+		if (gex) {
+			gex.addExecutable(executable)
+		}
+	}
+
+	/**
+	 * Remove an executable from the a group execution
+	 * @param id the if of the group execution
+	 * @param executable the executable to remove
+	 */
+	public removeExecutableFromGroupExecutionById(
+		id: string,
+		executable: Executable
+	) {
+		const gex = this.groupExecutions.find(gex => {
+			return gex.id === id
+		})
+		if (gex) {
+			gex.removeExecutable(executable)
 		}
 	}
 
