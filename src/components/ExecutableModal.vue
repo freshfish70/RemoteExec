@@ -28,10 +28,10 @@
 						placeholder="Execution description"
 					></b-form-input>
 					<b-form-invalid-feedback
-						:state="false"
+						:state="$v.description.required"
 						class="modal-form-feedback"
 						id="execution-desciption-feedback"
-						>{{ error }}</b-form-invalid-feedback
+						>{{ validatorText.required() }}</b-form-invalid-feedback
 					>
 				</b-form-group>
 				<b-form-group label="Executable" label-for="execution-name">
@@ -45,10 +45,10 @@
 						placeholder="Executable (app.sh)"
 					></b-form-input>
 					<b-form-invalid-feedback
-						:state="false"
+						:state="$v.executable.required"
 						class="modal-form-feedback"
 						id="execution-name-feedback"
-						>{{ error }}</b-form-invalid-feedback
+						>{{ validatorText.required() }}</b-form-invalid-feedback
 					>
 				</b-form-group>
 
@@ -66,10 +66,10 @@
 						placeholder="Executable path (/bin/)"
 					></b-form-input>
 					<b-form-invalid-feedback
-						:state="false"
+						:state="$v.path.required"
 						class="modal-form-feedback"
 						id="execution-path-feedback"
-						>{{ error }}</b-form-invalid-feedback
+						>{{ validatorText.required() }}</b-form-invalid-feedback
 					>
 				</b-form-group>
 
@@ -98,10 +98,16 @@
 						v-model="delay"
 					></b-form-input>
 					<b-form-invalid-feedback
-						:state="false"
+						:state="$v.delay.required"
 						class="modal-form-feedback"
 						id="execution-delay-feedback"
-						>{{ error }}</b-form-invalid-feedback
+						>{{ validatorText.required() }}</b-form-invalid-feedback
+					>
+					<b-form-invalid-feedback
+						:state="$v.delay.numeric"
+						class="modal-form-feedback"
+						id="execution-delay-feedback"
+						>{{ validatorText.required() }}</b-form-invalid-feedback
 					>
 				</b-form-group>
 			</b-form>
@@ -112,10 +118,11 @@
 				class="uppercase"
 				size
 				variant="primary"
+				:disabled="$v.$invalid"
 				@click="onUpdated"
 				>save</b-button
 			>
-			<b-button class="uppercase" variant="danger" @click="onUpdated"
+			<b-button class="uppercase" variant="danger" @click="close"
 				>cancle</b-button
 			>
 		</template>
@@ -123,10 +130,14 @@
 </template>
 <script lang="ts">
 import { Component, Vue, Prop, Watch, Emit } from 'vue-property-decorator'
-import { ProcessState } from '../lib/Execution/ProcessState'
+import { ProcessState } from '@/lib/Execution/ProcessState'
 import { PropType } from 'vue'
 import { watch } from 'fs'
-import { Executable } from '../lib/Execution/Executable'
+import { Executable } from '@/lib/Execution/Executable'
+import { ExecuteableApplication } from '@/lib/Execution/ExecuteableApplication'
+import { validationMixin } from 'vuelidate'
+import { required, numeric } from 'vuelidate/lib/validators'
+import { getValidatorText } from '@/lib/Validation/getValidatorText'
 
 /**
  * ExecutableModal is responsible for editing/creating executables for clients
