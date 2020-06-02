@@ -92,6 +92,13 @@ export class Client {
 	}
 
 	/**
+	 * Sets the client to authenticated state
+	 */
+	public setAuthenticated() {
+		this._state = ClientState.AUTHENTICATED
+	}
+
+	/**
 	 * Returns true if client is handshaking else false
 	 */
 	public isHandshaking() {
