@@ -71,6 +71,13 @@ export class JsonSocketProtocol extends Duplex {
 		this.bindSocketEvents(socket)
 	}
 
+	/**
+	 * Returns the TCP socket
+	 */
+	public get getSocket() {
+		return this.socket
+	}
+
 	public setEncryptorAndDecryptor(
 		encryptor: (data: string) => string,
 		decryptor: (data: string) => string
