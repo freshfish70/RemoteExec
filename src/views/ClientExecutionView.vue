@@ -111,7 +111,6 @@
 </template>
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
-import ConfirmationModal from '@/components/ConfirmationModal.vue'
 import ExecutableModal from '@/components/ExecutableModal.vue'
 import TitleMixin from '@/mixins/TitleMixin'
 import ProcessMixin from '@/mixins/ProcessMixin'
