@@ -118,6 +118,11 @@ export class Client {
 		this._groupExecutions.push(groupExecution)
 	}
 
+	public removeGroupExecutionById(id: string) {
+		let i = this.groupExecutions.findIndex(c => c.id == id)
+		if (i != -1) this.groupExecutions.splice(i, 1)
+	}
+
 	/**
 	 * Returns the group execution with the provided id or undefined
 	 * if not found
