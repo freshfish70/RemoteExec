@@ -2,7 +2,6 @@
 	<div id="app">
 		<dbg></dbg>
 		<router-view />
-		<router-link to="/app">HOME</router-link>
 	</div>
 </template>
 <script lang="ts">
