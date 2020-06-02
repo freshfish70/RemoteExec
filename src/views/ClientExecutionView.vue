@@ -143,7 +143,7 @@ export default class ClientExecutionView extends mixins(
 
 	private groupExecution: ClientGroupExecution | undefined | null = null
 
-	private executables: Array<Executable> | undefined = []
+	private executables: Array<Executable> = []
 
 	private selectedExecutable: Executable | undefined | null = null
 
