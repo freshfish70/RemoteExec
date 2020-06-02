@@ -123,10 +123,22 @@ import { GroupExecution } from '@/lib/Execution/GroupExecution'
 import { mixins } from 'vue-class-component'
 import Clients from '@/store/modules/Clients'
 
+let fromLocation: string = '/'
+
 @Component({
 	components: {
 		executableModal: ExecutableModal,
-		confirmationModal: ConfirmationModal,
+	},
+	beforeRouteEnter(to, from, next) {
+		fromLocation = from.path
+		next()
+	},
+	beforeRouteLeave(to, from, next) {
+		let self = this as ClientExecutionView
+		if (this.$route.query.initial && self.executables.length == 0) {
+			self.client?.removeGroupExecutionById(this.$route.params.exid)
+		}
+		next()
 	},
 	title: 'Client execution',
 	subtitle: 'Execution',
@@ -172,24 +184,28 @@ export default class ClientExecutionView extends mixins(
 	]
 
 	created() {
-		this.clientId = this.$route.params.id
-		this.client = Clients.client(this.clientId)
-		if (!this.client) return this.$router.push('/')
-		this.$options.title = this.client
-			? this.client.name
-			: '#Invalid client id'
-
-		this.groupExecution = this.client.getGroupExecutionById(
+		this.setClientFromUrl()
+		this.groupExecution = this.client?.getGroupExecutionById(
 			this.$route.params.exid
 		)
-		if (this.groupExecution) {
-			this.executables = Array.from(
-				this.groupExecution.executables.values()
-			)
+
+		if (!this.client || !this.groupExecution) {
+			return this.$router.replace(fromLocation)
 		}
+
+		this.$options.title = this.client.name
+		this.executables = Array.from(this.groupExecution.executables.values())
 	}
 
-	modalUpdate(executable: { new: boolean; executable: Executable | null }) {
+	private setClientFromUrl() {
+		this.clientId = this.$route.params.id
+		this.client = Clients.client(this.clientId)
+	}
+
+	private modalUpdate(executable: {
+		new: boolean
+		executable: Executable | null
+	}) {
 		if (executable.executable == null) return
 		if (!this.client || !this.groupExecution) return
 		if (executable.new) {

@@ -41,6 +41,15 @@
 					/></router-link>
 				</template>
 			</b-table>
+			<div class="align-self-center text-center d-flex flex-column">
+				<div class="cursor-pointer" @click="createAndGotoNewSequence">
+					<img
+						class="add-item-image mb-2"
+						src="/images/icons/add.png"
+					/><br />
+					<span>Add sequence</span>
+				</div>
+			</div>
 		</section>
 	</div>
 </template>
@@ -73,13 +82,21 @@ export default class ClientView extends Vue {
 
 	created() {
 		this.clientId = this.$route.params.id
-
 		this.client = Clients.client(this.clientId)
-		this.$options.title = this.client
-			? this.client.name
-			: '#Invalid client id'
+
+		if (!this.client) return this.$router.replace('/')
+		this.$options.title = this.client.name
 
 		this.groupExecutions = Vue.observable(this.client.groupExecutions)
+	}
+
+	createAndGotoNewSequence() {
+		const ex = new ClientGroupExecution('', '')
+		this.client?.groupExecutions.push(ex)
+		this.$router.push({
+			path: `/app/client/${this.clientId}/execution/${ex.id}`,
+			query: { initial: 'true' },
+		})
 	}
 
 	/**
