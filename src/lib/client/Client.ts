@@ -2,6 +2,7 @@ import { ExecuteableApplication } from '../Execution/ExecuteableApplication'
 import { IpAddresses } from '../Network/IpAddresses'
 import { ClientGroupExecution } from '../Execution/ClientGroupExecution'
 import { Executable } from '../Execution/Executable'
+import { ExecutableTree } from '@/types/Clients/ExecutableTree'
 
 /**
  * A client is a remote machine that is connected or has been connected
@@ -30,7 +31,7 @@ export class Client {
 
 	// List of all the avaiable folders that we are allowed
 	// to execute application is, provided by the remote client
-	private _validExecutionFolders: Array<string> = new Array()
+	private _validExecutionFolders: Array<ExecutableTree> = []
 
 	// List of all the created executable applications for this client
 	private _executions: Array<ExecuteableApplication> = new Array()
@@ -86,11 +87,11 @@ export class Client {
 		this._lastSeen = v
 	}
 
-	public get validExecutionFolders(): Array<string> {
+	public get validExecutionFolders(): Array<ExecutableTree> {
 		return this._validExecutionFolders
 	}
 
-	public set validExecutionFolders(v: Array<string>) {
+	public set validExecutionFolders(v: Array<ExecutableTree>) {
 		this._validExecutionFolders = v
 	}
 
