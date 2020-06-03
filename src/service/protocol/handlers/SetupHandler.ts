@@ -3,17 +3,12 @@ import { v4 as uuidv4 } from 'uuid'
 
 import ClientStore from '@/store/modules/Clients'
 import { Client as FrontClient } from '@/lib/client/Client'
+import { ExecutableTree } from '@/types/Clients/ExecutableTree'
 
 type SetupPayload = {
 	id?: string
 	name: string
 	executableTree: ExecutableTree
-}
-
-type ExecutableTree = {
-	path: string
-	files: [string]
-	folders: [ExecutableTree]
 }
 
 type SetupCompletePayload = {
