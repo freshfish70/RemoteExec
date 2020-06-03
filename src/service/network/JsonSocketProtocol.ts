@@ -156,11 +156,13 @@ export class JsonSocketProtocol extends Duplex {
 			// Try to parse the data and if it fails destroy the socket.
 			let data
 			try {
+				body = Buffer.from(body).toString()
 				if (this.encryptionEnabled) {
 					if (!this.decryptor)
 						throw new Error(
 							'Socket has not registered an Encryptor'
 						)
+
 					data = this.parse(this.decryptor(body))
 				} else {
 					data = this.parse(body)
