@@ -8,8 +8,7 @@ import { Client } from '@/service/network/Client'
 import actionHandler from '@/service/protocol/handlers'
 
 /**
- * Initialize the server and
- * @param store Vuex store
+ * Initialize the server
  */
 export const createServer = async function createServer() {
 	const parser = new ProtocolParser()

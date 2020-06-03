@@ -12,7 +12,7 @@ Vue.config.productionTip = false
 import { boot } from '@/loaders'
 
 async function start() {
-	let applicationBoot = await boot(store)
+	let applicationBoot = await boot()
 
 	new Vue({
 		router,
