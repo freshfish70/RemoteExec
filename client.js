@@ -16,9 +16,9 @@ const decodeUTF8 = nas.util.decodeUTF8,
 const newNonce = () => randomBytes(box.nonceLength)
 const generateKeyPair = () => box.keyPair()
 
-const encrypt = (secretOrSharedKey, json, key) => {
+const encrypt = (secretOrSharedKey, data, key) => {
 	const nonce = newNonce()
-	const messageUint8 = decodeUTF8(JSON.stringify(json))
+	const messageUint8 = decodeUTF8(data)
 	const encrypted = key
 		? box(messageUint8, nonce, key, secretOrSharedKey)
 		: box.after(messageUint8, nonce, secretOrSharedKey)
@@ -33,6 +33,7 @@ const encrypt = (secretOrSharedKey, json, key) => {
 
 const decrypt = (secretOrSharedKey, messageWithNonce, key) => {
 	const messageWithNonceAsUint8Array = decodeBase64(messageWithNonce)
+
 	const nonce = messageWithNonceAsUint8Array.slice(0, box.nonceLength)
 	const message = messageWithNonceAsUint8Array.slice(
 		box.nonceLength,
@@ -48,7 +49,8 @@ const decrypt = (secretOrSharedKey, messageWithNonce, key) => {
 	}
 
 	const base64DecryptedMessage = encodeUTF8(decrypted)
-	return JSON.parse(base64DecryptedMessage)
+
+	return base64DecryptedMessage
 }
 
 class JsonSocket extends Duplex {
@@ -166,12 +168,13 @@ class JsonSocket extends Duplex {
 			// Try to parse the data and if it fails destroy the socket.
 			let json
 			try {
+				let message = Buffer.from(body).toString('utf8')
 				if (this.encrypted) {
-					json = decrypt(JSON.parse(body), this.shkey)
+					message = decrypt(this.shkey, message)
 				}
-				json = JSON.parse(body)
+				json = JSON.parse(message)
 			} catch (ex) {
-				this.socket.destroy()
+				this._socket.destroy()
 				return
 			}
 
@@ -205,13 +208,12 @@ class JsonSocket extends Duplex {
 		if (this.encrypted) {
 			json = encrypt(this.shkey, json)
 		}
-		console.log(json)
 
 		let jsonBytes = Buffer.byteLength(json)
 		let buffer = Buffer.alloc(4 + jsonBytes)
 		buffer.writeUInt32BE(jsonBytes)
 		buffer.write(json, 4)
-		console.log(buffer)
+		// console.log(buffer)
 
 		this._socket.write(buffer, cb)
 	}
@@ -225,6 +227,7 @@ class JsonSocket extends Duplex {
 	}
 }
 
+let sockets = []
 async function run() {
 	for (let index = 0; index < 1; index++) {
 		let socket = new JsonSocket()
@@ -233,45 +236,46 @@ async function run() {
 		const keys = generateKeyPair()
 		let pubkey = null
 
-		// let interval = setInterval(() => {
-		//     console.log('sending')
-		//     socket.write({
-		//         data: {
-		//             // authenticate: {
-		//             //     password: '34234',
-		//             // },
-		//             publicKey: keys.publicKey,
-		//         },
-		//     })
-		// }, 1000)
 		socket.write({
 			data: {
 				publicKey: keys.publicKey,
 			},
 		})
+		sockets.push(socket)
 
-		await setTimeout(() => {
-			socket.write({
-				data: {
-					executed: 'erkljteklrjt',
-				},
-			})
-		}, 2000)
-
-		socket.on('close', () => clearInterval(interval))
+		socket.on('close', () => {})
 		socket.on('error', console.error)
 		socket.on('data', d => {
 			if (d.pubkey) {
-				console.log('key')
-				console.log(d.pubkey)
-
 				let k = new Uint8Array(Object.values(d.pubkey))
 
 				pubkey = nas.box.before(k, keys.secretKey)
 				socket.encrypt(pubkey)
+				socket.write({
+					data: {
+						authenticate: '1234',
+					},
+				})
 			}
-			if (d.ok) {
-				console.log(d.ok)
+			if (d.data) {
+				let data = d.data
+
+				if (data.verification) {
+					console.log(data.verification)
+					socket.write({
+						data: {
+							setup: {
+								id: '',
+								name: 'Client test',
+								executableTree: {
+									path: '/some/path',
+									files: ['file.exe'],
+									folder: [],
+								},
+							},
+						},
+					})
+				}
 			}
 		})
 	}
