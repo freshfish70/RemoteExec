@@ -8,7 +8,7 @@ import { ExecutableTree } from '@/types/Clients/ExecutableTree'
 type SetupPayload = {
 	id?: string
 	name: string
-	executableTree: ExecutableTree
+	executableTree: Array<ExecutableTree>
 }
 
 type SetupCompletePayload = {
@@ -44,6 +44,7 @@ export default (client: Client, payload: SetupPayload) => {
 	frontClient.connected = true
 	frontClient.firstSeen = currentTime
 	frontClient.lastSeen = currentTime
+	frontClient.validExecutionFolders = payload.executableTree
 
 	client.socket.on('close', () => {
 		frontClient.connected = false
