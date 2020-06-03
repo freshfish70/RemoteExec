@@ -49,4 +49,8 @@ export default (client: Client, payload: SetupPayload) => {
 	frontClient.connected = true
 	frontClient.firstSeen = currentTime
 	frontClient.lastSeen = currentTime
+
+	client.socket.on('close', () => {
+		frontClient.connected = false
+	})
 }

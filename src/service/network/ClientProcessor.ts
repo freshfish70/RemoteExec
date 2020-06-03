@@ -73,9 +73,7 @@ export class ClientProcessor {
 	 * @param clientid the client id
 	 */
 	public clientDisconnected(clientid: string) {
-		//!TODO: NOTIFY REMOVAL OF CLIENT
 		this.removeClient(clientid)
-		console.log('Client disocnnect: ' + clientid)
 	}
 
 	/**
