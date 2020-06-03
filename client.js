@@ -253,7 +253,7 @@ async function run() {
 				socket.encrypt(pubkey)
 				socket.write({
 					data: {
-						authenticate: '1234',
+						authenticate: 'topsecret',
 					},
 				})
 			}
