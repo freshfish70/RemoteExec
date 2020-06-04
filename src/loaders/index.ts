@@ -1,7 +1,7 @@
 import { logger } from '@/loaders/logger'
 import { createServer } from '@/loaders/server'
-import { Store } from 'vuex'
 import { storage } from './storage'
+import storageLoader from './storageLoader'
 
 /**
  * Starts application loaders.
@@ -11,5 +11,6 @@ import { storage } from './storage'
  * @param store Vuex store
  */
 export const boot = async function boot() {
+	storageLoader()
 	const server = await createServer()
 }
