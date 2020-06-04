@@ -6,7 +6,7 @@ import { Client as FrontClient } from '@/lib/client/Client'
 import { ExecutableTree } from '@/types/Clients/ExecutableTree'
 
 type SetupPayload = {
-	id?: string
+	id: string
 	name: string
 	executableTree: Array<ExecutableTree>
 }
