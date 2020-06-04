@@ -33,7 +33,17 @@ export class Clients extends VuexModule {
 	@Mutation
 	public addClient(client: Client) {
 		this.clients.push(client)
+
+	/**
+	 * Sets the stores clients to the provided array of clients.
+	 * This will remove all clients currently in the store.
+	 * @param clients clients to insert
+	 */
+	@Mutation
+	public setAndReplaceClients(clients: Array<Client>) {
+		this.clients = clients
 	}
+
 	/**
 	 * Remove the client from the vuex store, and propagte to
 	 * remove client from the local database.
