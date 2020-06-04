@@ -11,6 +11,8 @@ import Vue from 'vue'
 import { ClientProcessState } from '@/types/Execution/ClientProcessState'
 import { Executable } from '@/lib/Execution/Executable'
 
+import { generalStorage } from '@/service/storage/generalStore'
+
 /**
  * This module handles all clients connected/available
  * in local store.
@@ -33,6 +35,8 @@ export class Clients extends VuexModule {
 	@Mutation
 	public addClient(client: Client) {
 		this.clients.push(client)
+		generalStorage.saveClients(this.clients)
+	}
 
 	/**
 	 * Sets the stores clients to the provided array of clients.
