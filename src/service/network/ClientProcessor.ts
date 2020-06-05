@@ -1,6 +1,9 @@
 import { Client } from './Client'
 import { ClientPayload } from '../../types/protocol/ClientPayload'
 import { ProtocolParser } from '../protocol/ProtocolParser'
+import { PayloadSender } from '@/types/Network/PayloadSender'
+import { ErrorPayload } from '@/types/Network/ErrorPayload'
+import { DataPayload } from '@/types/Network/DataPayload'
 
 /**
  * The client processor is responsible for managing messages between client
@@ -8,7 +11,7 @@ import { ProtocolParser } from '../protocol/ProtocolParser'
  *
  * @author Christoffer Andersen Træen
  */
-export class ClientProcessor {
+export class ClientProcessor implements PayloadSender {
 	/**
 	 * Holds all connected clients.
 	 */
@@ -76,11 +79,12 @@ export class ClientProcessor {
 	}
 
 	/**
-	 * Handles the data to be sent
-	 * @param data data to send
+	 * Sends a payload to the client with provided id
+	 * @param id the of the client
+	 * @param data the data to send, either an error or data payload
 	 */
-	public send(clientid: string, data: Object) {
-		const client = this.getClientById(clientid)
+	public sendPayload(id: string, data: ErrorPayload | DataPayload): void {
+		const client = this.getClientById(id)
 
 		if (client) {
 			client.socket.write(data)
