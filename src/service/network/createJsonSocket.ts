@@ -28,7 +28,7 @@ export const createClient = (socket: Socket, processor: ClientProcessor) => {
 	 * Cleanup
 	 */
 	function onClose() {
-		processor.clientDisconnected(client.id)
+		processor.clientDisconnected(client)
 		jsonSocket.removeAllListeners('data')
 		jsonSocket.removeAllListeners('error')
 		jsonSocket.removeAllListeners('close')

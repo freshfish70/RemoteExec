@@ -10,10 +10,9 @@ import { ProtocolParser } from '../protocol/ProtocolParser'
  */
 export class ClientProcessor {
 	/**
-	 * Holds all active clients.
-	 * the key is their ID
+	 * Holds all connected clients.
 	 */
-	private _clients: Map<string, Client> = new Map()
+	private _clients: Set<Client> = new Set()
 
 	/**
 	 * ProtocolParser
@@ -22,7 +21,6 @@ export class ClientProcessor {
 
 	/**
 	 * Initialize the emitter and sets the store
-	 * @param store Vuex store
 	 */
 	constructor(parser: ProtocolParser) {
 		this._parser = parser
@@ -32,23 +30,25 @@ export class ClientProcessor {
 	 * Adds a client to the client pool
 	 */
 	public addClient(client: Client) {
-		this._clients.set(client.id, client)
+		this._clients.add(client)
 	}
 
 	/**
 	 * Removes a client from the pool.
-	 * @param cliendId the id of the client
+	 * @param client the client to remove
 	 */
-	private removeClient(cliendId: string) {
-		this._clients.delete(cliendId)
+	private removeClient(client: Client) {
+		this._clients.delete(client)
 	}
 
 	/**
 	 * Returns a client with given id.
-	 * @param cliendId the clientid of the client to find
+	 * @param cliendId the id of the client to find
 	 */
-	public getClient(cliendId: string): Client | undefined {
-		return this._clients.get(cliendId)
+	public getClientById(cliendId: string): Client | undefined {
+		for (const client of this._clients.values()) {
+			return client.id === cliendId ? client : undefined
+		}
 	}
 
 	/**
@@ -68,12 +68,11 @@ export class ClientProcessor {
 	}
 
 	/**
-	 * Notifies the UI of a client disconnection.
-	 * Also removes the client from the pool.
-	 * @param clientid the client id
+	 * Remove the client from connected pool
+	 * @param clientid the client disconnected
 	 */
-	public clientDisconnected(clientid: string) {
-		this.removeClient(clientid)
+	public clientDisconnected(client: Client) {
+		this.removeClient(client)
 	}
 
 	/**
@@ -81,7 +80,7 @@ export class ClientProcessor {
 	 * @param data data to send
 	 */
 	public send(clientid: string, data: Object) {
-		const client = this.getClient(clientid)
+		const client = this.getClientById(clientid)
 
 		if (client) {
 			client.socket.write(data)
