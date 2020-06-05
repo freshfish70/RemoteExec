@@ -22,7 +22,7 @@ export class Client {
 	/**
 	 * ID of the client
 	 */
-	private _id: string
+	private _id: string = ''
 
 	/**
 	 * Public encryption key of the client
@@ -36,7 +36,6 @@ export class Client {
 
 	constructor(socket: JsonSocketProtocol) {
 		this._socket = socket
-		this._id = uuidv4()
 	}
 
 	/**
@@ -45,6 +44,14 @@ export class Client {
 	get id() {
 		return this._id
 	}
+
+	/**
+	 * Sets the clients id
+	 */
+	set id(id: string) {
+		this._id = id
+	}
+
 	/**
 	 * Returns the clients name
 	 */

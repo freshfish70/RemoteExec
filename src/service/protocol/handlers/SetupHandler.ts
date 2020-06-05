@@ -39,6 +39,8 @@ export default (client: Client, payload: SetupPayload) => {
 	storeClient.lastSeen = currentTime
 	storeClient.validExecutionFolders = payload.executableTree
 
+	client.id = storeClient.id
+
 	client.socket.on('close', () => {
 		storeClient!.connected = false
 	})
