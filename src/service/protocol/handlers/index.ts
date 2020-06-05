@@ -4,6 +4,9 @@ import publicKeyHandler from './PublicKeyHandler'
 import authenticateHandler from './AuthenticateHandler'
 
 import { Client } from '@/service/network/Client'
+import { PayloadSender } from '@/types/Network/PayloadSender'
+
+let payloadSender: PayloadSender
 
 /**
  * Handler entry for authorized, and not authorized action possible for clients
@@ -56,4 +59,7 @@ function handle(client: Client, payload: any) {
 	}
 }
 
-export default handle
+export default function(sender: PayloadSender) {
+	payloadSender = sender
+	return handle
+}

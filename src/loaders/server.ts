@@ -13,15 +13,16 @@ import actionHandler from '@/service/protocol/handlers'
 export const createServer = async function createServer() {
 	const parser = new ProtocolParser()
 	const processor = new ClientProcessor(parser)
+	const handler = actionHandler(processor)
 
 	parser.registerActions('publicKey', (client: Client, payload: any) => {
-		actionHandler(client, payload)
+		handler(client, payload)
 			.preauthorizeAction()
 			?.publicKey()
 	})
 
 	parser.registerActions('authenticate', (client: Client, payload: any) => {
-		actionHandler(client, payload)
+		handler(client, payload)
 			.preauthorizeAction()
 			?.authenticate()
 	})
@@ -34,7 +35,7 @@ export const createServer = async function createServer() {
 	)
 
 	parser.registerActions('setup', (client: Client, payload: any) => {
-		actionHandler(client, payload)
+		handler(client, payload)
 			.authorizedAction()
 			?.setup()
 	})
