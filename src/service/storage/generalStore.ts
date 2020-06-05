@@ -1,70 +1,39 @@
 import Store from 'electron-store'
+import { Client } from '@/lib/client/Client'
 
 /**
  * Store for basic app data which is not sensitive.
  */
+let storage = new Store({
+	name: 'config',
+	fileExtension: 'dontedit',
+	clearInvalidConfig: false,
+	encryptionKey: '',
+})
 
-const storageSchema = {
-	clients: {
-		type: 'array',
-		items: {
-			type: 'object',
-			propterties: {
-				id: { type: 'string' },
-				name: { type: 'string' },
-				ip: {
-					type: 'object',
-					properties: {
-						ipv4: { type: 'string' },
-						ipv6: { type: 'string' },
-					},
-				},
-				firstSeen: { type: 'string' },
-				lastSeen: { type: 'string' },
-				validExecutionFolders: {
-					type: 'array',
-					items: { type: 'string' },
-				},
-				executions: {
-					type: 'array',
-					items: {
-						type: 'object',
-						properties: {
-							eid: { type: 'number' },
-							application: { type: 'string' },
-							path: { type: 'string' },
-							arguments: { type: 'string' },
-							delay: { type: 'number' },
-						},
-					},
-				},
-			},
-		},
-		default: [],
-	},
-}
-const generalStore = () => {
-	let storage = new Store({
-		name: 'config',
-		fileExtension: '.dontedit',
-		clearInvalidConfig: false,
-		encryptionKey: ':justtolimitediting:',
-	})
+class Storage {
+	private _store: Store
 
-	return {
-		get,
-		set,
+	constructor(store: Store) {
+		this._store = store
+	}
+
+	protected get store(): Store {
+		return this._store
 	}
 }
+class GeneralStorage extends Storage {
+	constructor(store: Store) {
+		super(store)
+	}
 
-export { generalStore }
+	getClients() {
+		return this.store.get('clients') as Array<Client>
+	}
 
-// Get functions
-const get = {
-	client: {
-		byEid: (eid: number) => {},
-	},
+	saveClients(clients: Array<Client>) {
+		return this.store.set('clients', clients)
+	}
 }
-
-// Set functions
-const set = {}
+const generalStorage = new GeneralStorage(storage)
+export { generalStorage }
