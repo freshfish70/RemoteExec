@@ -105,16 +105,8 @@ export default class TestingPanel extends Vue {
 		grp.addExecutable(new Executable(cli.executions[0], 3600))
 		grp.addExecutable(new Executable(cli.executions[1], 3600))
 		cli.addGroupExecution(grp)
-		cli.validExecutionFolders = ['C:/Home/dir', 'A:/Applications/test']
+		cli.validExecutionFolders = []
 		Clients.addClient(cli)
-
-		setInterval(() => {
-			this.updateClientProcessState({
-				clientId: cli.id,
-				eid: cli.executions[0].eid,
-				state: Math.random() < 0.5 ? 1 : 0,
-			})
-		}, 2500)
 	}
 }
 </script>
