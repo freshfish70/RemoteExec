@@ -1,9 +1,10 @@
 import { ProcessState } from './ProcessState'
+import { Application } from '@/types/Processes/Application'
 
 /**
  * Represents an executeable application on a remote client
  */
-export class ExecuteableApplication {
+export class ExecuteableApplication implements Application {
 	// Unique id used to identify the execution
 	private _eid: string = ''
 
