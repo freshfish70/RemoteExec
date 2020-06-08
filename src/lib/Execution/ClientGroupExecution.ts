@@ -1,6 +1,7 @@
 import { GroupExecution } from './GroupExecution'
 import { Executable } from './Executable'
 import { ProcessState } from './ProcessState'
+import { MultiExecutable } from '@/types/Processes/MultiExecutable'
 
 /**
  * Holds all executables for a client group exectuion.
@@ -19,6 +20,12 @@ export class ClientGroupExecution extends GroupExecution {
 	 */
 	public get executables(): Set<Executable> {
 		return this._executables
+	}
+	/**
+	 * Sets the executables for this group execution group
+	 */
+	public set executables(executables: Set<Executable>) {
+		this._executables = executables
 	}
 
 	/**
