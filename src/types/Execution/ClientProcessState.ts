@@ -8,3 +8,13 @@ export interface ClientProcessState {
 	eid: string
 	state: ProcessState
 }
+
+export interface ProcessIdentifierState {
+	eid: string
+	state: ProcessState
+}
+
+export interface ClientProcessesState {
+	clientId: string
+	processes: Array<ProcessIdentifierState>
+}
