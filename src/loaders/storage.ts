@@ -1,11 +1,10 @@
 import { secureStore } from '@/service/storage/secureStore'
-import { generalStore } from '@/service/storage/generalStore'
-import { Store } from 'vuex'
+import { generalStorage } from '@/service/storage/generalStore'
 
-export const storage = (store: Store<{}>) => {
+export const storage = () => {
 	function initGeneralStorage() {
 		try {
-			return generalStore()
+			return generalStorage
 		} catch (error) {
 			console.log('Error general storage')
 			console.log(error)
