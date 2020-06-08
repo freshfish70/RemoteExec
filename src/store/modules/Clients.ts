@@ -8,7 +8,10 @@ import {
 import { Client } from '@/lib/client/Client'
 import store from '../index'
 import Vue from 'vue'
-import { ClientProcessState } from '@/types/Execution/ClientProcessState'
+import {
+	ClientProcessState,
+	ClientProcessesState,
+} from '@/types/Execution/ClientProcessState'
 import { Executable } from '@/lib/Execution/Executable'
 
 import { generalStorage } from '@/service/storage/generalStore'
@@ -70,6 +73,24 @@ export class Clients extends VuexModule {
 		if (i != -1) {
 			let app = this.clients[i].getExecutableApplication(newState.eid)
 			if (app) app.processState = newState.state
+		}
+	}
+
+	/**
+	 * Sets a new state for the client process
+	 * @param newState the new state of the client process
+	 */
+	@Mutation
+	public updateClientMultipleProcessesState(
+		processesStates: ClientProcessesState
+	) {
+		let i = this.clients.findIndex(c => c.id == processesStates.clientId)
+		if (i != -1) {
+			const client = this.clients[i]
+			for (const process of processesStates.processes) {
+				let app = client.getExecutableApplication(process.eid)
+				if (app) app.processState = process.state
+			}
 		}
 	}
 
