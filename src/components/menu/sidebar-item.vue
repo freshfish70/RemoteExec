@@ -9,18 +9,18 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
 
-const SidebarItemProps = Vue.extend({
-	props: {
-		image: String,
-		text: String,
-		to: String,
-		hover: {
-			type: Boolean,
-			default: true,
-		},
-	},
-})
-
 @Component
-export default class SidebarItem extends SidebarItemProps {}
+export default class SidebarItem extends Vue {
+	@Prop({ type: String })
+	image!: String
+
+	@Prop({ type: String })
+	text!: String
+
+	@Prop({ type: String })
+	to!: String
+
+	@Prop({ type: Boolean, default: true })
+	hover!: boolean
+}
 </script>
