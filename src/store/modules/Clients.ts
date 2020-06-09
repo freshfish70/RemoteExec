@@ -17,6 +17,7 @@ import { Executable } from '@/lib/Execution/Executable'
 import { generalStorage } from '@/service/storage/generalStore'
 import { ProcessState } from '@/lib/Execution/ProcessState'
 import { isValidEnumValue } from '@/lib/helpers/EnumValueValidator'
+import { clientProcessor } from '@/loaders'
 
 /**
  * This module handles all clients connected/available
@@ -138,12 +139,22 @@ export class Clients extends VuexModule {
 	}) {
 		let i = this.clients.findIndex(c => c.id == clientId)
 		if (i != -1) {
-			//!TODO - SEND REQUEST TO CLIENT
-			this.updateClientProcessState({
-				clientId,
-				eid: executable.executableApplication.eid,
-				state: 0,
-			}) // !REMOVE THIS LINE - LOCAL TEST
+			clientProcessor.sendPayload(clientId, {
+				data: {
+					execute: [
+						{
+							id: executable.executableApplication.eid,
+							name: executable.executableApplication.name,
+							delay: executable.delay,
+							application:
+								executable.executableApplication.application,
+							path: executable.executableApplication.path,
+							arguments:
+								executable.executableApplication.arguments,
+						},
+					],
+				},
+			})
 		}
 	}
 
