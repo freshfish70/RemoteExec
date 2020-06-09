@@ -10,7 +10,7 @@ import actionHandler from '@/service/protocol/handlers'
 /**
  * Initialize the server
  */
-export const createServer = async function createServer() {
+export const createServer = function createServer() {
 	const parser = new ProtocolParser()
 	const processor = new ClientProcessor(parser)
 	const handler = actionHandler(processor)
@@ -29,10 +29,11 @@ export const createServer = async function createServer() {
 
 	parser.registerActions('executed', (client: Client, payload: any) => {})
 
-	parser.registerActions(
-		'processStatus',
-		(client: Client, payload: any) => {}
-	)
+	parser.registerActions('processStatus', (client: Client, payload: any) => {
+		handler(client, payload)
+			.authorizedAction()
+			?.processStatus()
+	})
 
 	parser.registerActions('setup', (client: Client, payload: any) => {
 		handler(client, payload)
@@ -46,4 +47,5 @@ export const createServer = async function createServer() {
 
 	// !NEEDS TO BE TRIGGERED BY UI
 	server.listen(config.network.port)
+	return processor
 }
