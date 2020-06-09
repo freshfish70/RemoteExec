@@ -66,9 +66,4 @@ class ClientStoreBinder {
 
 const clientStoreBinder = new ClientStoreBinder()
 
-setTimeout(() => {
-	clientStoreBinder.clientConnected(`1d69bab2-b659-470e-bb13-446712962369`)
-	let ei = '0.27462119535553886'
-	// clientStoreBinder.updateProcessStatusForClient()
-}, 1000)
 export default clientStoreBinder
