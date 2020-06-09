@@ -261,7 +261,6 @@ async function run() {
 				let data = d.data
 
 				if (data.verification) {
-					console.log(data.verification)
 					socket.write({
 						data: {
 							setup: {
@@ -273,6 +272,23 @@ async function run() {
 									folder: [],
 								},
 							},
+						},
+					})
+				}
+
+				if (data.execute) {
+					let returnSt = []
+					for (const ex of data.execute) {
+						let status = {
+							id: ex.id,
+							state: 'RUNNING',
+							message: 'Yes its working',
+						}
+						returnSt.push(status)
+					}
+					socket.write({
+						data: {
+							processStatus: returnSt,
 						},
 					})
 				}
