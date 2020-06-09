@@ -2,7 +2,7 @@ import bunyan from 'bunyan'
 import fs from 'fs'
 
 // Log directory location.
-const logDirectory = __dirname + '/../../logs'
+const logDirectory = './logs'
 
 /**
  * Initilize the bunyan logger, and return the instance.
