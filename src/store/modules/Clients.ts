@@ -15,6 +15,8 @@ import {
 import { Executable } from '@/lib/Execution/Executable'
 
 import { generalStorage } from '@/service/storage/generalStore'
+import { ProcessState } from '@/lib/Execution/ProcessState'
+import { isValidEnumValue } from '@/lib/helpers/EnumValueValidator'
 
 /**
  * This module handles all clients connected/available
@@ -88,8 +90,10 @@ export class Clients extends VuexModule {
 		if (i != -1) {
 			const client = this.clients[i]
 			for (const process of processesStates.processes) {
-				let app = client.getExecutableApplication(process.eid)
-				if (app) app.processState = process.state
+				if (isValidEnumValue(process.state, ProcessState)) {
+					let app = client.getExecutableApplication(process.eid)
+					if (app) app.processState = process.state
+				}
 			}
 		}
 	}
@@ -115,6 +119,8 @@ export class Clients extends VuexModule {
 
 	@Action
 	public saveClient(clientId: string) {
+		generalStorage.saveClients(this.clients)
+
 		let i = this.clients.findIndex(c => c.id == clientId)
 		if (i != -1) {
 			// TODO: SAVE CLIENT TO FILE
