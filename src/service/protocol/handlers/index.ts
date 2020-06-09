@@ -2,6 +2,7 @@
 import setupHandler from './SetupHandler'
 import publicKeyHandler from './PublicKeyHandler'
 import authenticateHandler from './AuthenticateHandler'
+import processStatusHandler from './ProcessStatusHandler'
 
 import { Client } from '@/service/network/Client'
 import { PayloadSender } from '@/types/Network/PayloadSender'
@@ -23,6 +24,7 @@ function handle(client: Client, payload: any) {
 	 */
 	const authorizedHandlers = {
 		setup: () => setupHandler(client, payload),
+		processStatus: () => processStatusHandler(client, payload),
 	}
 
 	/**
