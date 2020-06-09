@@ -8,9 +8,10 @@ import storageLoader from './storageLoader'
  *
  * Application loaders handles initialization
  * of services required by the application.
- * @param store Vuex store
  */
 export const boot = async function boot() {
 	storageLoader()
-	const server = await createServer()
 }
+
+const clientProcessor = createServer()
+export { clientProcessor }
