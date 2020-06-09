@@ -16,6 +16,8 @@ function loadClients() {
 	if (loadedClients) {
 		for (const client of loadedClients) {
 			let cl = new Client(client.name, client.id)
+			cl.firstSeen = client.firstSeen
+			cl.lastSeen = client.lastSeen
 
 			for (const groupExecution of client.groupExecutions) {
 				let newGroupExecution = new ClientGroupExecution(
