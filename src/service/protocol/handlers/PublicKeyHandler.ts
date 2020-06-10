@@ -12,7 +12,7 @@ const _serverKeys: BoxKeyPair = crypto.generateKeyPair()
 
 export default (client: Client, payload: any) => {
 	if (!payload || !client.isHandshaking()) return
-	let key = new Uint8Array(Object.values(payload))
+	let key = Buffer.from(payload, 'base64')
 
 	const sharedkey = crypto.generateSharedKey(key, _serverKeys.secretKey)
 
@@ -26,6 +26,8 @@ export default (client: Client, payload: any) => {
 		return crypto.decryptWithSharedKey(data, client.sharedKey)
 	}
 	client.socket.setEncryptorAndDecryptor(encryptor, decryptor)
-	client.socket.write({ pubkey: _serverKeys.publicKey })
+	client.socket.write({
+		pubkey: Buffer.from(_serverKeys.publicKey).toString(`base64`),
+	})
 	client.socket.setEncryptionState(true)
 }

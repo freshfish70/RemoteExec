@@ -238,16 +238,17 @@ async function run() {
 
 		socket.write({
 			data: {
-				publicKey: keys.publicKey,
+				publicKey: Buffer.from(keys.publicKey).toString(`base64`),
 			},
 		})
+
 		sockets.push(socket)
 
 		socket.on('close', () => {})
 		socket.on('error', console.error)
 		socket.on('data', d => {
 			if (d.pubkey) {
-				let k = new Uint8Array(Object.values(d.pubkey))
+				let k = Buffer.from(d.pubkey, 'base64')
 
 				pubkey = nas.box.before(k, keys.secretKey)
 				socket.encrypt(pubkey)
