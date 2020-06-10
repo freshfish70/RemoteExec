@@ -60,7 +60,7 @@ export class TweetCrypto {
 		)
 		const message = messageWithNonceAsUint8Array.slice(
 			this.box.nonceLength,
-			encryptedData.length
+			messageWithNonceAsUint8Array.length
 		)
 		return { nonce, message }
 	}
