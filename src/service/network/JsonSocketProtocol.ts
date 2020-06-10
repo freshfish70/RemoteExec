@@ -134,7 +134,7 @@ export class JsonSocketProtocol extends Duplex {
 			// Now that we have a length buffer we can convert it
 			// into a number by reading the UInt32BE value
 			// from the buffer.
-			let dataLength = lengthBuffer.readUInt32BE()
+			let dataLength = lengthBuffer.readUInt32LE()
 
 			// ensure that we don't exceed the max size of 256KiB
 			if (dataLength > 2 ** this.packageMaxSize) {
@@ -226,7 +226,7 @@ export class JsonSocketProtocol extends Duplex {
 		}
 		let dataSize = Buffer.byteLength(json)
 		let buffer = Buffer.alloc(this.lengthPackageByteSize + dataSize)
-		buffer.writeUInt32BE(dataSize, 0)
+		buffer.writeUInt32LE(dataSize, 0)
 		buffer.write(json, 4)
 		this.socket.write(buffer, encoding, callback)
 	}
