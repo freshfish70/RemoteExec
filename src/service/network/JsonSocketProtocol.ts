@@ -149,7 +149,7 @@ export class JsonSocketProtocol extends Duplex {
 			// we will wait for the body to arrive and push the length
 			// back into the socket's read buffer with unshift.
 			if (!body) {
-				this.socket.unshift(lengthBuffer)
+				// this.socket.unshift(lengthBuffer)
 				return
 			}
 
