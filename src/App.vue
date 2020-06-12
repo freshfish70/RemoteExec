@@ -1,6 +1,6 @@
 <template>
 	<div id="app">
-		<dbg></dbg>
+		<!-- <dbg></dbg> -->
 		<router-view />
 	</div>
 </template>
@@ -9,7 +9,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import TestingPanel from '@/components/TestingPanel.vue'
 @Component({
 	components: {
-		dbg: TestingPanel,
+		// dbg: TestingPanel,
 	},
 })
 export default class App extends Vue {}
