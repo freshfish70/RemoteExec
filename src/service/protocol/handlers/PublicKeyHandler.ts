@@ -27,7 +27,7 @@ export default (client: Client, payload: any) => {
 	}
 	client.socket.setEncryptorAndDecryptor(encryptor, decryptor)
 	client.socket.write({
-		pubkey: Buffer.from(_serverKeys.publicKey).toString(`base64`),
+		publicKey: Buffer.from(_serverKeys.publicKey).toString(`base64`),
 	})
 	client.socket.setEncryptionState(true)
 }
