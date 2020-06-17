@@ -18,12 +18,21 @@ type SetupCompletePayload = {
 
 export default (client: Client, payload: SetupPayload) => {
 	let id = payload.id
+	console.log('setup')
+	console.log(payload)
 
 	if (clientStoreBinder.clientExists(id)) {
 		ClientStoreBinder.clientConnected(id)
 	} else {
 		id = uuidv4()
 		clientStoreBinder.createNewClient(payload.name, id)
+		client.socket.write({
+			data: {
+				setupComplete: {
+					id,
+				},
+			},
+		})
 	}
 
 	client.id = id
