@@ -35,7 +35,7 @@ export default (client: Client, payload: any) => {
 
 	client.socket.write({
 		data: {
-			verification: createAuthenticationResponse(verified),
+			authVerification: createAuthenticationResponse(verified),
 		},
 	})
 }
