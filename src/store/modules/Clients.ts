@@ -141,18 +141,21 @@ export class Clients extends VuexModule {
 		if (i != -1) {
 			clientProcessor.sendPayload(clientId, {
 				data: {
-					execute: [
-						{
-							id: executable.executableApplication.eid,
-							name: executable.executableApplication.name,
-							delay: executable.delay,
-							application:
-								executable.executableApplication.application,
-							path: executable.executableApplication.path,
-							arguments:
-								executable.executableApplication.arguments,
-						},
-					],
+					execute: {
+						executables: [
+							{
+								id: executable.executableApplication.eid,
+								name: executable.executableApplication.name,
+								delay: executable.delay,
+								application:
+									executable.executableApplication
+										.application,
+								path: executable.executableApplication.path,
+								arguments:
+									executable.executableApplication.arguments,
+							},
+						],
+					},
 				},
 			})
 		}
