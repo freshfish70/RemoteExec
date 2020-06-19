@@ -62,6 +62,14 @@ class ClientStoreBinder {
 	clientConnected(clientId: string): void {
 		ClientsStore.setConnectedState({ clientId, connected: true })
 	}
+
+	/**
+	 * Stops alle processes for given client id
+	 * @param clientId id if the client to stop all processes for
+	 */
+	stopAllProcesses(clientId: string): void {
+		ClientsStore.stopAllProcesses({ clientId })
+	}
 }
 
 const clientStoreBinder = new ClientStoreBinder()

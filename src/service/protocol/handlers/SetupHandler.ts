@@ -39,5 +39,6 @@ export default (client: Client, payload: SetupPayload) => {
 
 	client.socket.on('close', () => {
 		clientStoreBinder.clientDisconnected(id)
+		clientStoreBinder.stopAllProcesses(id)
 	})
 }
