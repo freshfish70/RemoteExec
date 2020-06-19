@@ -63,6 +63,7 @@ body {
 
 .menu-item:hover .sidebar-hover {
 	visibility: visible;
+	z-index: 5;
 }
 
 .menu-item:hover {
