@@ -130,6 +130,78 @@ export class Clients extends VuexModule {
 	}
 
 	@Action
+	public startGroupExecution({
+		clientId,
+		groupId,
+	}: {
+		clientId: string
+		groupId: string
+	}) {
+		let i = this.clients.findIndex(c => c.id == clientId)
+		console.log(groupId)
+
+		if (i != -1) {
+			const client = this.clients[i]
+			const grp = client.getGroupExecutionById(groupId)
+			if (grp) {
+				const executables: Array<any> = []
+				for (const executable of grp.executables) {
+					executables.push({
+						id: executable.executableApplication.eid,
+						name: executable.executableApplication.name,
+						delay: executable.delay,
+						application:
+							executable.executableApplication.application,
+						path: executable.executableApplication.path,
+						arguments: executable.executableApplication.arguments,
+					})
+				}
+
+				clientProcessor.sendPayload(clientId, {
+					data: {
+						execute: {
+							executables,
+						},
+					},
+				})
+			}
+		}
+	}
+
+	@Action
+	public stopGroupExecution({
+		clientId,
+		groupId,
+	}: {
+		clientId: string
+		groupId: string
+	}) {
+		let i = this.clients.findIndex(c => c.id == clientId)
+		console.log(groupId)
+
+		if (i != -1) {
+			const client = this.clients[i]
+			const grp = client.getGroupExecutionById(groupId)
+			if (grp) {
+				const processes: Array<any> = []
+				for (const executable of grp.executables) {
+					processes.push({
+						id: executable.executableApplication.eid,
+					})
+				}
+
+				clientProcessor.sendPayload(clientId, {
+					data: {
+						kill: {
+							processes,
+						},
+					},
+				})
+			}
+		}
+	}
+
+	@Action
 	public startProcess({
 		clientId,
 		executable,
@@ -171,12 +243,27 @@ export class Clients extends VuexModule {
 	}) {
 		let i = this.clients.findIndex(c => c.id == clientId)
 		if (i != -1) {
-			//!TODO - SEND REQUEST TO CLIENT
-			this.updateClientProcessState({
-				clientId,
-				eid: executable.executableApplication.eid,
-				state: 1,
-			}) // !REMOVE THIS LINE - LOCAL TEST
+			clientProcessor.sendPayload(clientId, {
+				data: {
+					kill: {
+						processes: [
+							{
+								id: executable.executableApplication.eid,
+							},
+						],
+					},
+				},
+			})
+		}
+	}
+
+	@Action
+	public stopAllProcesses({ clientId }: { clientId: string }) {
+		let i = this.clients.findIndex(c => c.id == clientId)
+		if (i != -1) {
+			for (const exe of this.clients[i].executions) {
+				exe.processState = ProcessState.STOPPED
+			}
 		}
 	}
 }

@@ -24,13 +24,15 @@
 				</template>
 				<template v-slot:cell(toggle)="data">
 					<img
-						class="toggle-image"
+						class="toggle-image cursor-pointer"
 						src="/images/icons/play.png"
 						v-if="canStartGroupSequence(data.item.state)"
+						@click="startGroup(data.item.id)"
 					/>
 					<img
-						class="toggle-image"
+						class="toggle-image  cursor-pointer"
 						src="/images/icons/stop.png"
+						@click="stopGroup(data.item.id)"
 						v-else
 					/>
 				</template>
@@ -97,6 +99,14 @@ export default class ClientView extends Vue {
 			path: `/app/client/${this.clientId}/execution/${ex.id}`,
 			query: { initial: 'true' },
 		})
+	}
+
+	startGroup(item: any) {
+		Clients.startGroupExecution({ clientId: this.clientId, groupId: item })
+	}
+
+	stopGroup(item: any) {
+		Clients.stopGroupExecution({ clientId: this.clientId, groupId: item })
 	}
 
 	/**
